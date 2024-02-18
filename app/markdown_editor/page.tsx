@@ -42,7 +42,7 @@ const MarkdownEditor = () => {
     <div className={styles.container}>
       {!isEditing ? (
         <div className={styles.markdownView}>
-          <ReactMarkdown children={markdownText} />
+          <ReactMarkdown>{markdownText}</ReactMarkdown>
           <button onClick={handleEdit} className={styles.editButton}>
             Edit Markdown
           </button>
@@ -56,7 +56,7 @@ const MarkdownEditor = () => {
             placeholder="Write some markdown..."
           />
           <div className={styles.markdown}>
-            <ReactMarkdown children={markdownText} />
+            <ReactMarkdown>{markdownText}</ReactMarkdown>
           </div>
         </div>
       )}
