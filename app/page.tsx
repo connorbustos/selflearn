@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
+import { Text } from "@radix-ui/themes";
 
-function Hello() {
-  return <div>go to /search or /markdown_editor</div>;
-}
+const HomePage = () => {
+  return <Text>go to /search or /markdown_editor</Text>;
+};
 
-export default Hello;
+export default HomePage;

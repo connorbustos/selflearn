@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
 import { Formik, Form, Field } from "formik";
+import { Button } from "@radix-ui/themes";
 
 const NameForm: React.FC = () => {
   return (
     <div className="max-w-md mx-auto my-10">
-      <h1 className="text-center text-2xl font-semibold mb-6">Name Form</h1>
+      <h1 className="text-center text-2xl font-semibold mb-6">Create Wiki</h1>
       <Formik
         initialValues={{ name: "" }}
         onSubmit={(values) => {
@@ -19,14 +20,14 @@ const NameForm: React.FC = () => {
                 htmlFor="name"
                 className="block text-gray-700 text-sm font-bold mb-2"
               >
-                Name
+                Wiki Name
               </label>
               <Field
                 id="name"
                 name="name"
                 type="text"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Enter your name"
+                placeholder="Enter Wiki Name"
               />
             </div>
             <div className="flex items-center justify-center">
@@ -34,12 +35,13 @@ const NameForm: React.FC = () => {
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
-                Submit
+                Create
               </button>
             </div>
           </Form>
         )}
       </Formik>
+      <Button>Radix</Button>
     </div>
   );
 };

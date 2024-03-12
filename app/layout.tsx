@@ -1,4 +1,6 @@
 import React from "react";
+import { Theme } from "@radix-ui/themes";
+import "./globals.css";
 
 export default function RootLayout({
   children,
@@ -7,7 +9,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Theme>{children}</Theme>
+      </body>
     </html>
   );
 }

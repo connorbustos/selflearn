@@ -1,9 +1,10 @@
 "use client";
-import React, { useState } from "react";
 import Link from "next/link";
+import React, { useState } from "react";
 import { Grid, Text, Box, Input } from "@chakra-ui/react";
-import styles from "../../css/SearchLearningPlans.module.css";
 import { ChakraProvider } from "@chakra-ui/react";
+
+import styles from "../../css/SearchLearningPlans.module.css";
 
 const LearningMaterialsSearch = () => {
   // Sample list of learning materials
