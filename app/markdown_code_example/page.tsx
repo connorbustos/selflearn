@@ -1,11 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import MarkdownEditor from "@/components/MarkdownEditor";
+import CodeEditor from "@/components/CodeEditor";
 
 const MarkdownEditor_Page = () => {
-  const templateText = `# Welcome to Our Markdown Editor!
+  const templateText = `# Welcome to Our EBook Editor!
   
-  This intuitive Markdown Editor is specifically designed for educators, students, and content creators who are passionate about crafting engaging and interactive learning materials. Our editor simplifies the process of creating well-structured documents, notes, and online content that can enhance the learning experience.
+  This EBook Editor is specifically designed for educators, students, and content creators who are passionate about crafting engaging and interactive learning materials. Our editor simplifies the process of creating well-structured documents, notes, and online content that can enhance the learning experience.
   
   ## Key Features
   
@@ -22,8 +23,19 @@ const MarkdownEditor_Page = () => {
   4. **Save Your Work**: Once you're satisfied, hit the "Save" button to keep your changes.`;
   // markdown requires prose: https://stackoverflow.com/questions/75706164/problem-with-tailwind-css-when-using-the-react-markdown-component
 
+  const reactCounterCodeSnippet = `const [count, setCount] = useState(0);`;
+  const [code, setCode] = useState(reactCounterCodeSnippet);
+
   return (
-    <MarkdownEditor initialMarkdownText={templateText} isEditingProp={false} />
+    <div className="flex flex-col items-center">
+      <MarkdownEditor
+        initialMarkdownText={templateText}
+        isEditingProp={false}
+      />
+      <div className="w-full max-w-7xl px-4 py-8">
+        <CodeEditor initialCode={code} />
+      </div>
+    </div>
   );
 };
 

@@ -2,19 +2,12 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import MarkdownEditor from "@/components/MarkdownEditor";
+import WikiEditor from "@/components/WikiEditor";
 const NameForm: React.FC = () => {
   return (
     <div className="w-full max-w-4xl mx-auto my-10">
       <h1 className="text-center text-2xl font-semibold mb-4">Create Wiki</h1>{" "}
-      <Formik
-        initialValues={{ name: "" }}
-        onSubmit={(values) => {
-          {
-            /* API call for saving the current wiki*/
-          }
-          alert(`Name: ${values.name}`);
-        }}
-      >
+      <Formik initialValues={{ name: "" }} onSubmit={() => {}}>
         {() => (
           <Form className="bg-white shadow-md rounded px-4 pt-4 pb-4 mb-2">
             <div className="mb-2">
@@ -31,7 +24,7 @@ const NameForm: React.FC = () => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Enter Wiki Name"
               />
-              <MarkdownEditor initialMarkdownText={""} isEditingProp={true} />
+              <WikiEditor />
             </div>
             <div className="flex items-center justify-center">
               <button
