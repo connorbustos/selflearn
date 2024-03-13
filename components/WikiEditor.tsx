@@ -31,7 +31,7 @@ const WikiEditor: React.FC = () => {
           Add Code Snippet
         </button>
         <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-          {/** This will switch to view mode */}
+          {/* This will switch to view mode */}
           Switch to View
         </button>
       </div>
