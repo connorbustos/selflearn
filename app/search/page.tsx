@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Grid, Text, Box, Input } from "@chakra-ui/react";
 import { ChakraProvider } from "@chakra-ui/react";
 
-import styles from "../../css/SearchLearningPlans.module.css";
+import "../../css/SearchLearningPlans.module.css";
 
 const LearningMaterialsSearch = () => {
   // Sample list of learning materials
@@ -139,7 +139,7 @@ const LearningMaterialsSearch = () => {
 
   return (
     <ChakraProvider>
-      <div className={styles.searchContainer}>
+      <div className={"searchContainer"}>
         <Grid px={{ base: "4", md: "8", lg: "12" }} gap={6}>
           <Input
             type="text"
@@ -156,7 +156,7 @@ const LearningMaterialsSearch = () => {
             alignItems="start"
           >
             {filteredMaterials.map((material) => (
-              <Link key={material.id} href="/" className={styles.card}>
+              <Link key={material.id} href="/" className={"card"}>
                 <Box
                   key={material.id}
                   minH="200px" // Minimum height to ensure boxes start the same size

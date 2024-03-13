@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { Button } from "./ui/button";
 
 interface MarkdownEditorProps {
   initialMarkdownText: string;
@@ -30,21 +31,18 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 
   return (
     <div className="flex justify-center items-center">
-      <div className="w-full max-w-7xl p-4">
+      <div className="flex flex-col w-full max-w-7xl p-4 gap-y-2">
         {!isEditing ? (
           <div className="flex flex-col items-center justify-center">
             <div className="prose lg:prose-base p-4 w-full md:max-w-4xl">
               <ReactMarkdown>{markdownText}</ReactMarkdown>
             </div>
-            <button
-              className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-              onClick={handleEdit}
-            >
+            <Button className="w-fit" onClick={handleEdit}>
               Edit Markdown
-            </button>
+            </Button>
           </div>
         ) : (
-          <div className="flex flex-col md:flex-row">
+          <div className="flex flex-col md:flex-row border-solid border-2 rounded-md">
             <textarea
               className="md:w-1/2 p-4 resize-none outline-none border-r border-gray-300"
               value={markdownText}
@@ -59,12 +57,9 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
           </div>
         )}
         {isEditing ? (
-          <button
-            className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-            onClick={handleSave}
-          >
+          <Button className="w-fit" onClick={handleSave}>
             Save Markdown
-          </button>
+          </Button>
         ) : null}
       </div>
     </div>

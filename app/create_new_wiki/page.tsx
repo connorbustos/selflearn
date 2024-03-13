@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 const CreateWiki: React.FC = () => {
   const { toast } = useToast();
   return (
-    <div className="w-full max-w-4xl mx-auto my-10">
+    <div className="w-full max-w-6xl mx-auto my-10">
       <h1 className="text-center text-2xl font-semibold mb-4">Create Wiki</h1>{" "}
       <Formik initialValues={{ name: "" }} onSubmit={() => {}}>
         {() => (
@@ -33,18 +33,17 @@ const CreateWiki: React.FC = () => {
             </div>
             <Toaster />
             <div className="flex items-center justify-center">
-              <button
-                type="submit"
-                className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-                onClick={() =>
+              <Button
+                type={"submit"}
+                onClick={() => {
                   toast({
                     title: "Creating Wiki",
                     description: "Wiki Created!",
-                  })
-                }
+                  });
+                }}
               >
-                Create
-              </button>
+                Create Wiki
+              </Button>
             </div>
           </Form>
         )}

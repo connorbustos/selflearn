@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MarkdownEditor from "./MarkdownEditor";
 import CodeEditor from "./CodeEditor";
+import { Button } from "./ui/button";
 
 const WikiEditor: React.FC = () => {
   const [components, setComponents] = useState<
@@ -18,22 +19,9 @@ const WikiEditor: React.FC = () => {
   return (
     <div className="py-4">
       <div className="flex gap-4 mb-4">
-        <button
-          className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-          onClick={addMarkdownEditor}
-        >
-          Add Markdown Editor
-        </button>
-        <button
-          className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-          onClick={addCodeEditor}
-        >
-          Add Code Snippet
-        </button>
-        <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-          {/* This will switch to view mode */}
-          Switch to View
-        </button>
+        <Button onClick={addMarkdownEditor}>Add Markdown Editor</Button>
+        <Button onClick={addCodeEditor}>Add Code Snippet</Button>
+        <Button>Preview Wiki</Button>
       </div>
       <div className="overflow-auto max-h-screen">
         {components.map((component) => {
