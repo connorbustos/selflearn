@@ -23,7 +23,7 @@ const WikiEditor: React.FC = () => {
         <Button onClick={addCodeEditor}>Add Code Snippet</Button>
         <Button>Preview Wiki</Button>
       </div>
-      <div className="overflow-auto max-h-screen">
+      <div className="flex flex-col gap-y-4 overflow-auto max-h-screen">
         {components.map((component) => {
           switch (component.type) {
             case "markdown":
@@ -36,7 +36,10 @@ const WikiEditor: React.FC = () => {
               );
             case "code":
               return (
-                <div key={component.key} className="aspect-w-4 aspect-h-3 p-4">
+                <div
+                  key={component.key}
+                  className="aspect-w-4 aspect-h-3 p-4 mt-0 border-2 border-solid border-gray-300 rounded-md"
+                >
                   <CodeEditor initialCode="# Start coding here..." />
                 </div>
               );
