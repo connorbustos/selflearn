@@ -3,7 +3,12 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import MarkdownEditor from "@/components/MarkdownEditor";
 import WikiEditor from "@/components/WikiEditor";
-const NameForm: React.FC = () => {
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
+import { Button } from "@/components/ui/button";
+
+const CreateWiki: React.FC = () => {
+  const { toast } = useToast();
   return (
     <div className="w-full max-w-4xl mx-auto my-10">
       <h1 className="text-center text-2xl font-semibold mb-4">Create Wiki</h1>{" "}
@@ -26,10 +31,17 @@ const NameForm: React.FC = () => {
               />
               <WikiEditor />
             </div>
+            <Toaster />
             <div className="flex items-center justify-center">
               <button
                 type="submit"
                 className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                onClick={() =>
+                  toast({
+                    title: "Creating Wiki",
+                    description: "Wiki Created!",
+                  })
+                }
               >
                 Create
               </button>
@@ -41,4 +53,4 @@ const NameForm: React.FC = () => {
   );
 };
 
-export default NameForm;
+export default CreateWiki;
