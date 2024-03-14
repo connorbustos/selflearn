@@ -11,13 +11,22 @@ export default function Register() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (!firstName || !lastName || !userName || !password) {
+            setError("All fields are necessary.");
+            return;
+        }
+    }
+
     return (         
         <div className="grid place-items-center h-screen">
             <div className="shadow-lg p-5 rounded-lg border-t-4
             border-green-600">
                 <h1 className="text-xl font-bold my-4">Register</h1>
 
-                <form className="flex flex-col gap-3">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-3">
                     <input 
                         onChange={e => setFirstName(e.target.value)} 
                         className="register" 
