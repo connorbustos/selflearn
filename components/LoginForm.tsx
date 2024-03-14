@@ -9,7 +9,11 @@ export default function LoginForm() {
             <form className="flex flex-col gap-3">
                 <input className="login" type="text" placeholder="Username" />
                 <input className="login" type="password" placeholder="Password" />
+                <button className="bg-green-600 text-white font-bold
+                cursor-pointer px-6 py-2">Login</button>
 
+                <div className="bg-red-500 text-white w-fit
+                text-sm py-1 px-3 rounded-md mt-2">Error message</div>
             </form>
         </div>
      </div>
