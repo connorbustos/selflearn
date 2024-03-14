@@ -11,12 +11,34 @@ export default function Register() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!firstName || !lastName || !userName || !password) {
             setError("All fields are necessary.");
             return;
+        }
+
+        try {
+            const res = await fetch('api/register', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    firstName, lastName, userName, password
+                })
+            });
+
+            if (res.ok) {
+                const form = e.target;
+                form.reset();
+            } else {
+                console.log("User registration failed");
+            }
+
+        } catch (error) {
+            console.log("Error during registration: ", error);
         }
     }
 
