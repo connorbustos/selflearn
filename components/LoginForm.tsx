@@ -17,7 +17,7 @@ export default function LoginForm() {
                 text-sm py-1 px-3 rounded-md mt-2">Error message</div>
 
                 <Link className="text-sm mt-3 text-center" 
-                href={'@/components/register'}>
+                href={'/register'}>
                     Don't have an account? <span 
                     className="underline">Register</span>
                 </Link>
