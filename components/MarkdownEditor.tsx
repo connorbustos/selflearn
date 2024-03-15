@@ -6,11 +6,13 @@ import { Button } from "./ui/button";
 interface MarkdownEditorProps {
   initialMarkdownText: string;
   isEditingProp: boolean;
+  isOwner?: boolean;
 }
 
 const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   initialMarkdownText,
   isEditingProp,
+  isOwner = true,
 }) => {
   const [markdownText, setMarkdownText] = useState(initialMarkdownText);
   const [isEditing, setIsEditing] = useState(isEditingProp);
@@ -37,7 +39,10 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
             <div className="prose lg:prose-base p-4 w-full md:max-w-4xl">
               <ReactMarkdown>{markdownText}</ReactMarkdown>
             </div>
-            <Button className="w-fit" onClick={handleEdit}>
+            <Button
+              className={`w-fit ${isOwner ? "inherit" : "hidden"}`}
+              onClick={handleEdit}
+            >
               Edit Markdown
             </Button>
           </div>
