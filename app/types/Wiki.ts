@@ -1,10 +1,10 @@
 export type WikiContent = {
-  isCode: boolean;
+  contentType: string;
   data: string;
 };
 
 export type WikiData = {
-  name: string;
+  title: string;
   content: Array<WikiContent>;
   owner: string;
 };

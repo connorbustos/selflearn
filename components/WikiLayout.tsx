@@ -1,24 +1,21 @@
 "use client";
-import { WikiData } from "@/app/types/Wiki";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Button } from "./ui/button";
 import MarkdownEditor from "./MarkdownEditor";
 import CodeEditor from "./CodeEditor";
+import { useWikiDataStore } from "@/store/wikiData.store";
 
-interface WikiLayoutProps {
-  wikiData: WikiData;
-}
+const WikiLayout = ({}) => {
+  const { title, content } = useWikiDataStore();
 
-const WikiLayout = ({ wikiData }: WikiLayoutProps) => {
   return (
     <div className="w-full h-full overflow-hidden">
       <div className="max-w-6xl mx-auto my-10 px-4 pt-4 pb-4 bg-white shadow-md rounded-lg">
-        {/*{JSON.stringify(wikiData)}*/}
-        <h1 className="w-fit text-7xl mx-auto">&#8620; {wikiData.name}</h1>
+        <h1 className="w-fit text-7xl mx-auto">&#8620; {title}</h1>
         <div className="flex flex-col items-center gap-y-6 justify-center">
-          {wikiData.content.map((item, index) => {
-            if (item.isCode) {
+          {content.map((item, index) => {
+            if (item.contentType === "code") {
               return (
                 <div key={index} className="w-full md:max-w-4xl shadow-md">
                   <CodeEditor initialCode={item.data} />
@@ -27,6 +24,7 @@ const WikiLayout = ({ wikiData }: WikiLayoutProps) => {
             } else {
               return (
                 <MarkdownEditor
+                  isOnViewWiki={true}
                   key={index}
                   initialMarkdownText={item.data}
                   isEditingProp={false}
