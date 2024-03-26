@@ -1,20 +1,26 @@
-import { ObjectId } from "mongodb"; // Import ObjectId from MongoDB
-
+import { ObjectId } from "mongodb";
 import clientPromise from "../../../libs/db";
 import { WikiData } from "@/app/types/Wiki";
+import { NextRequest } from "next/server";
 
-export async function getWiki(wikiId: string) {
+export async function GET(request: NextRequest) {
   try {
     const client = await clientPromise;
     const db = client.db();
-    console.log(new ObjectId(wikiId));
+
+    const wikiId = request.nextUrl.searchParams.get("wikiId");
+    console.log(wikiId);
+    if (!wikiId) {
+      throw new Error("Wiki ID is required");
+    }
+
+    // console.log(request);
 
     const result = await db
       .collection("AllWikis")
       .findOne({ _id: new ObjectId(wikiId) });
-
     if (!result) {
-      throw new Error("Wiki not found"); // Throw an error if the wiki with the specified ID is not found
+      throw new Error("Wiki not found");
     }
 
     const wikiData: WikiData = {
@@ -22,12 +28,22 @@ export async function getWiki(wikiId: string) {
       title: result.title,
       content: result.content,
       owner: result.owner,
-      // Map other properties as needed
     };
 
-    return wikiData;
+    return new Response(JSON.stringify(wikiData), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   } catch (error) {
-    console.error("Error:", error);
-    throw new Error("Internal Server Error");
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
+    return new Response(JSON.stringify({ error: errorMessage }), {
+      status: 500,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 }
