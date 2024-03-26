@@ -8,7 +8,6 @@ import { useWikiDataStore } from "@/store/wikiData.store";
 import Link from "next/link";
 import { WikiData } from "@/app/types/Wiki";
 import { UserData } from "@/app/types/User";
-import { getAllWikis } from "@/app/api/getAllWikis/route";
 
 interface WikiLayoutProps {
   wikiData: WikiData;
