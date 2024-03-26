@@ -53,6 +53,10 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      translate: {
+        "1/2": "0.125rem", // 2 pixels
+        "1/4": "0.0625rem", // 1 pixel
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
