@@ -14,8 +14,6 @@ export async function GET(request: NextRequest) {
       throw new Error("Wiki ID is required");
     }
 
-    // console.log(request);
-
     const result = await db
       .collection("AllWikis")
       .findOne({ _id: new ObjectId(wikiId) });
