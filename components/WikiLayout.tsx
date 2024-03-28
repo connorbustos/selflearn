@@ -20,9 +20,9 @@ const WikiLayout = ({ wikiData }: WikiLayoutProps) => {
     <div className="w-screen">
       <div className="w-full py-4 px-4">
         <div className="w-fit sticky top-8 left-10">
-          <Link href={"/create_new_wiki"}>
+          {/* <Link href={"/create_new_wiki"}>
             <Button>Edit Wiki</Button>
-          </Link>
+          </Link> */}
         </div>
         <div className="w-full h-full overflow-hidden">
           <div className="max-w-6xl mx-auto my-10 px-4 pt-4 pb-4 bg-white shadow-md rounded-lg">

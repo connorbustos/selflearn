@@ -3,6 +3,8 @@ import WikiLayout from "@/components/WikiLayout";
 import { useUserDataStore } from "@/store/userData.store";
 import { useWikiDataStore } from "@/store/wikiData.store";
 import React, { useState, useEffect } from "react";
+import { ChakraProvider } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
 import { WikiData } from "../../types/Wiki";
 import { UserData } from "../../types/User";
 import { WithId } from "mongodb";
@@ -39,7 +41,6 @@ const ViewWiki = ({ params }: { params: { slug: string } }) => {
   const [wikiData, setWikiData] = useState<WikiData | undefined>(undefined);
 
   useEffect(() => {
-    ``;
     const fetchWikiData = async () => {
       try {
         console.log(params.slug);
@@ -55,9 +56,11 @@ const ViewWiki = ({ params }: { params: { slug: string } }) => {
   }, [params.slug]);
 
   return (
-    <div className="w-full py-4 px-4">
-      {wikiData ? <WikiLayout wikiData={wikiData} /> : "Wiki not found"}
-    </div>
+    <ChakraProvider>
+      <div className="w-full py-4 px-4 content-center">
+        {wikiData ? <WikiLayout wikiData={wikiData} /> : <Spinner />}
+      </div>
+    </ChakraProvider>
   );
 };
 
