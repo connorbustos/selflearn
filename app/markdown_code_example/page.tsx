@@ -31,6 +31,7 @@ const MarkdownEditor_Page = () => {
       <MarkdownEditor
         initialMarkdownText={templateText}
         isEditingProp={false}
+        isOnViewWiki={false}
       />
       <div className="w-full max-w-7xl px-4 py-8">
         <CodeEditor initialCode={code} />
