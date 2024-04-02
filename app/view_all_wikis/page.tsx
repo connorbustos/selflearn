@@ -1,16 +1,15 @@
 "use client";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import { Grid, Text, Box, Input } from "@chakra-ui/react";
+import { Grid, Text, Box, Input, Spinner } from "@chakra-ui/react";
 import { ChakraProvider } from "@chakra-ui/react";
-import { Spinner } from "@chakra-ui/react";
 
 import styles from "../../css/SearchLearningPlans.module.css";
 
 const ViewAllWikis = () => {
   const [searchQuery, setSearchQuery] = useState("");
-
   const [wikis, setWikis] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchLearningMaterials = async () => {
       try {
@@ -20,17 +19,20 @@ const ViewAllWikis = () => {
         }
         const data = await response.json();
         setWikis(data);
-        console.log(data);
       } catch (error) {
         console.error("Error fetching learning materials:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchLearningMaterials();
   }, []);
 
-  const filteredWikis = wikis.filter((wiki: any) =>
-    wiki.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+  const filteredWikis = wikis.filter(
+    (wiki: any) =>
+      typeof wiki.title === "string" &&
+      wiki.title.toLowerCase().startsWith(searchQuery.toLowerCase())
   );
 
   return (
@@ -51,26 +53,32 @@ const ViewAllWikis = () => {
             justifyContent="center"
             alignItems="start"
           >
-            {filteredWikis.map((wiki: any) => (
-              <Link
-                key={wiki.id}
-                href={`/view_wiki/${wiki._id}`}
-                className={styles.card}
-              >
-                <Box
+            {isLoading ? (
+              <div className="absolute inset-0 flex justify-center items-center pt-80">
+                <Spinner size="xl" />
+              </div>
+            ) : (
+              filteredWikis.map((wiki: any) => (
+                <Link
                   key={wiki.id}
-                  minH="200px" // Minimum height to ensure boxes start the same size
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="space-between" // Adjusts content spacing inside the box
+                  href={`/view_wiki/${wiki._id}`}
+                  className={styles.card}
                 >
-                  <Text fontSize="xl" as="b">
-                    {wiki.title}
-                  </Text>
-                  <Text>{wiki.data}</Text>
-                </Box>
-              </Link>
-            ))}
+                  <Box
+                    key={wiki.id}
+                    minH="200px"
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="space-between"
+                  >
+                    <Text fontSize="xl" as="b">
+                      {wiki.title}
+                    </Text>
+                    <Text>{wiki.data}</Text>
+                  </Box>
+                </Link>
+              ))
+            )}
           </Grid>
         </Grid>
       </div>
