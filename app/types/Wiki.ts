@@ -2,6 +2,7 @@ export type WikiContent = {
   type: string;
   data: string;
   language?: string;
+  isEditable?: boolean;
 };
 
 export type WikiData = {

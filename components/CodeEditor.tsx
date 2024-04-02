@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 
 interface CodeEditorProps {
   initialCode: string;
@@ -26,6 +27,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   isOwner = true,
 }) => {
   const [code, setCode] = useState(initialCode);
+  const [editable, setEditable] = useState(true);
   const [language, setLanguage] = useState(languages[0].value);
 
   const handleEditorChange = (value: string | undefined) => {
@@ -44,7 +46,15 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         language={language}
         value={code}
         onChange={handleEditorChange}
+        options={{ readOnly: !editable }}
       />
+      <div className="flex items-center mb-2">
+        <Switch
+          checked={editable}
+          onCheckedChange={() => setEditable(!editable)}
+        />
+        <span className="ml-2 align-middle">Editable</span>
+      </div>
       <Select
         onValueChange={handleLanguageChange}
         defaultValue={languages[0].value}
