@@ -1,6 +1,7 @@
 export type WikiContent = {
   type: string;
   data: string;
+  language?: string;
 };
 
 export type WikiData = {
