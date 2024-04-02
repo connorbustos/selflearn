@@ -30,6 +30,6 @@
     ".next/types/**/*.ts",
     "app/hello.tsx",
     "libs/db.ts"
-  ],
+, "app/api/register/route.ts"  ],
   "exclude": ["node_modules"]
 }
