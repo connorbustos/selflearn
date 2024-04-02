@@ -1,5 +1,7 @@
+"use client";
 import React from "react";
 import Navbar from "../components/Navbar";
+import { usePathname } from "next/navigation";
 import "./globals.css";
 
 export default function RootLayout({
@@ -7,10 +9,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
   return (
     <html lang="en">
       <body>
-        <Navbar />
+        <Navbar currentPath={pathname} />
         {children}
       </body>
     </html>
