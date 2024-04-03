@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Editor from "@monaco-editor/react";
 import {
   Select,
@@ -8,8 +8,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { Button } from "./ui/button";
+import { useWikiDataStore } from "@/store/wikiData.store";
+import { WikiContent } from "@/app/types/Wiki";
 
 interface CodeEditorProps {
+  codeId?: string;
   initialCode: string;
   isOwner?: boolean;
 }
@@ -23,19 +27,54 @@ const languages = [
 ];
 
 const CodeEditor: React.FC<CodeEditorProps> = ({
+  codeId,
   initialCode,
   isOwner = true,
 }) => {
   const [code, setCode] = useState(initialCode);
   const [editable, setEditable] = useState(true);
   const [language, setLanguage] = useState(languages[0].value);
+  const [disableButton, setDisableButton] = useState(false);
+
+  const { content, setContent } = useWikiDataStore();
+
+  const existingContent = content.find((item) => item.id === codeId);
 
   const handleEditorChange = (value: string | undefined) => {
     setCode(value ?? "");
+    setDisableButton(false);
   };
 
   const handleLanguageChange = (value: string) => {
     setLanguage(value);
+    setDisableButton(false);
+  };
+
+  const handleIsEditableChange = () => {
+    setEditable(!editable);
+    setDisableButton(false);
+  };
+
+  const handleSave = () => {
+    if (existingContent) {
+      const existingContentIndex = content.indexOf(existingContent);
+      const updatedContent = [...content];
+      updatedContent[existingContentIndex].data = code;
+
+      if (updatedContent[existingContentIndex].language !== language) {
+        updatedContent[existingContentIndex].language = language;
+      }
+      setContent(updatedContent);
+    } else {
+      const newContent: WikiContent = {
+        id: codeId ?? "",
+        type: "code",
+        language: language,
+        data: code ?? "",
+      };
+      setContent([...content, newContent]);
+      setDisableButton(true);
+    }
   };
 
   return (
@@ -49,10 +88,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         options={{ readOnly: !editable }}
       />
       <div className="flex items-center mb-2">
-        <Switch
-          checked={editable}
-          onCheckedChange={() => setEditable(!editable)}
-        />
+        <Switch checked={editable} onCheckedChange={handleIsEditableChange} />
         <span className="ml-2 align-middle">Editable</span>
       </div>
       <Select
@@ -73,6 +109,15 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
           ))}
         </SelectContent>
       </Select>
+
+      <Button
+        type={"button"}
+        onClick={handleSave}
+        variant={disableButton ? "disabled" : "default"}
+        className={"mt-2"}
+      >
+        Save Changes
+      </Button>
     </div>
   );
 };

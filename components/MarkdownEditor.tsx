@@ -2,20 +2,26 @@
 import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Button } from "./ui/button";
+import { useWikiDataStore } from "@/store/wikiData.store";
+import { WikiContent } from "@/app/types/Wiki";
 
 interface MarkdownEditorProps {
+  markdownId?: string;
   initialMarkdownText: string;
   isEditingProp: boolean;
   isOnViewWiki: boolean;
 }
 
 const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
+  markdownId,
   initialMarkdownText,
   isEditingProp,
   isOnViewWiki = true,
 }) => {
   const [markdownText, setMarkdownText] = useState(initialMarkdownText);
   const [isEditing, setIsEditing] = useState(isEditingProp);
+
+  const { content, setContent } = useWikiDataStore();
 
   const handleTextChange = (event: any) => {
     setMarkdownText(event.target.value);
@@ -26,6 +32,24 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   };
 
   const handleSave = () => {
+    const existingContent = content.find((item) => item.id === markdownId);
+
+    if (existingContent) {
+      const existingContentIndex = content.indexOf(existingContent);
+      const updatedContent = [...content];
+      updatedContent[existingContentIndex].data = markdownText;
+      setContent(updatedContent);
+    } else {
+      const newContent: WikiContent = {
+        id: markdownId ?? "",
+        type: "markdown",
+        data: markdownText ?? "",
+      };
+      setContent([...content, newContent]);
+
+      console.log(content);
+    }
+
     setIsEditing(false); // Switch to view mode
   };
 
