@@ -1,6 +1,6 @@
 export type WikiContent = {
   type: string;
-  data: string;
+  data?: string;
   language?: string;
   isEditable?: boolean;
 };
