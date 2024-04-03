@@ -19,17 +19,17 @@ const WikiEditor: React.FC = () => {
     setComponents([...components, { id: uuidv4(), type: "code" }]);
   };
 
-  useEffect(() => {
-    console.log(components);
-  }, [components]);
-
   return (
     <div className="py-4">
       <div className="flex gap-4 mb-4">
-        <Button onClick={addMarkdownEditor}>Add Markdown Editor</Button>
-        <Button onClick={addCodeEditor}>Add Code Snippet</Button>
+        <Button type="button" onClick={addMarkdownEditor}>
+          Add Markdown Editor
+        </Button>
+        <Button type="button" onClick={addCodeEditor}>
+          Add Code Snippet
+        </Button>
         <Link href={"/view_wiki"}>
-          <Button>Preview Wiki</Button>
+          <Button type="button">Preview Wiki</Button>
         </Link>
       </div>
       <div className="flex flex-col gap-y-4 overflow-auto max-h-screen">

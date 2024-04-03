@@ -46,8 +46,6 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
         data: markdownText ?? "",
       };
       setContent([...content, newContent]);
-
-      console.log(content);
     }
 
     setIsEditing(false); // Switch to view mode
@@ -64,6 +62,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
               <ReactMarkdown>{markdownText}</ReactMarkdown>
             </div>
             <Button
+              type="button"
               className={`w-fit ${isOnViewWiki ? "hidden" : "inherit"}`}
               onClick={handleEdit}
             >
@@ -86,7 +85,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
           </div>
         )}
         {isEditing ? (
-          <Button className="w-fit" onClick={handleSave}>
+          <Button type="button" className="w-fit" onClick={handleSave}>
             Save Markdown
           </Button>
         ) : null}

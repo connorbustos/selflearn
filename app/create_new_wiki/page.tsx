@@ -13,7 +13,31 @@ const CreateWiki: React.FC = () => {
   const { title, content, owner } = useWikiDataStore();
 
   const handleSubmit = async (values: any) => {
-    console.log(values);
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      const raw = JSON.stringify({
+        title: values.title,
+        content: content,
+        owner: "isaackimmi",
+      });
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+      };
+
+      const response = await fetch(
+        "http://localhost:3000/api/putWiki",
+        requestOptions
+      );
+      const result = await response.text();
+      console.log(result);
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   return (
