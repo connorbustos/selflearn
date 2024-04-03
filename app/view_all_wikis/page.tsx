@@ -60,12 +60,11 @@ const ViewAllWikis = () => {
             ) : (
               filteredWikis.map((wiki: any) => (
                 <Link
-                  key={wiki.id}
+                  key={wiki._id}
                   href={`/view_wiki/${wiki._id}`}
                   className={styles.card}
                 >
                   <Box
-                    key={wiki.id}
                     minH="200px"
                     display="flex"
                     flexDirection="column"

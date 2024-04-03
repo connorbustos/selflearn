@@ -1,4 +1,5 @@
 export type WikiContent = {
+  id: string;
   type: string;
   data?: string;
   language?: string;
