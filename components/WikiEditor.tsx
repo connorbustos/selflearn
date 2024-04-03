@@ -31,7 +31,7 @@ const WikiEditor: React.FC = () => {
       </div>
       <div className="flex flex-col gap-y-4 overflow-auto max-h-screen">
         {content.map((data) => {
-          switch (data.contentType) {
+          switch (data.type) {
             case "code":
               return (
                 <div
