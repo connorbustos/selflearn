@@ -1,14 +1,17 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Formik, Form, Field } from "formik";
 import WikiEditor from "@/components/WikiEditor";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { useWikiDataStore } from "@/store/wikiData.store";
+import { useSession } from "next-auth/react";
 
 const CreateWiki: React.FC = () => {
   const { toast } = useToast();
+
+  const { data: session } = useSession();
 
   const { title, content, owner } = useWikiDataStore();
 
@@ -20,7 +23,7 @@ const CreateWiki: React.FC = () => {
       const raw = JSON.stringify({
         title: values.title,
         content: content,
-        owner: "isaackimmi",
+        owner: session?.user?.name,
       });
 
       const requestOptions = {
@@ -39,6 +42,14 @@ const CreateWiki: React.FC = () => {
       console.log("error", error);
     }
   };
+
+  if (!session) {
+    return (
+      <div className="w-full max-w-6xl mx-auto my-10">
+        Please login to view the content
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-6xl mx-auto my-10">
