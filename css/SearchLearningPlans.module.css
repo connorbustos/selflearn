@@ -1,26 +1,4 @@
-/* Add a new class for the container */
-.searchContainer {
-  padding-top: 30px; /* Adjust the value as needed */
-}
-
-.searchInput {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  font-size: 16px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(200px, 1fr)
-  ); /* Adjust the minmax values as needed */
-  gap: 20px; /* Space between grid items */
-}
-
 .card {
-  border: 1px solid #ddd;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
