@@ -31,8 +31,23 @@ const getUserCreatedWikis = async (owner: string) => {
   });
 };
 
+const getUserWikiDrafts = async (owner: string) => {
+  const response = await fetch("http://localhost:3000/api/getAllWikiDrafts");
+  const data = await response.json();
+  const wikisWithMappedIds = data.map((wiki: any) => {
+    return {
+      ...wiki,
+      id: wiki._id,
+    };
+  });
+  return wikisWithMappedIds.filter((wiki: WikiData) => {
+    return wiki.owner === owner;
+  });
+};
+
 const WikiTable = async ({ owner }: WikiTableProps) => {
   const data: Array<WikiData> = await getUserCreatedWikis(owner);
+  const userDrafts: Array<WikiData> = await getUserWikiDrafts(owner);
 
   return (
     <div className="flex flex-col justify-center items-center w-full px-10">
@@ -60,8 +75,28 @@ const WikiTable = async ({ owner }: WikiTableProps) => {
                   {wiki.dateModified ?? "04/04/2024"}
                 </TableCell>
                 <TableCell className="text-right">
-                  <Button>
+                  <Button className="min-w-[96px] max-w-[96px]">
                     <Link href={`/view_wiki/${wiki.id}`}>View Wiki</Link>
+                  </Button>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+          {userDrafts.map((wiki: WikiData) => {
+            return (
+              <TableRow key={userDrafts.indexOf(wiki)}>
+                <TableCell>Draft</TableCell>
+                <TableCell>{wiki.title}</TableCell>
+                <TableCell className="text-right">
+                  {wiki.datePublished ?? "04/03/2024"}
+                </TableCell>
+                <TableCell className="text-right">
+                  {wiki.dateModified ?? "04/04/2024"}
+                </TableCell>
+                <TableCell className="text-right">
+                  {/** TODO: Make this button load the wiki draft contents into the wiki editor! */}
+                  <Button className="min-w-[96px] max-w-[96px]">
+                    Edit Wiki
                   </Button>
                 </TableCell>
               </TableRow>

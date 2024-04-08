@@ -1,15 +1,10 @@
 "use client";
-import Link from "next/link";
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import WikiCard from "@/components/WikiCard";
 import MarkdownEditor from "@/components/MarkdownEditor";
 import CreatorCard from "@/components/CreatorCard";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
+import Link from "next/link";
 
 const NewHomePage = () => {
   // Sample list of learning materials
@@ -51,6 +46,16 @@ const NewHomePage = () => {
       title: "Introduction to Databases",
       description: "Understanding relational and NoSQL databases.",
     },
+    {
+      id: 9,
+      title: "Introduction to Databases",
+      description: "Understanding relational and NoSQL databases.",
+    },
+    {
+      id: 10,
+      title: "Introduction to Databases",
+      description: "Understanding relational and NoSQL databases.",
+    },
   ];
 
   const popularWikis = [
@@ -89,13 +94,17 @@ const NewHomePage = () => {
   ## Getting Started with the Markdown Editor
   1. Add markdown text for what you want to teach the user
   2. Add code snippets in Python, Java, or C++!
+  3. Go to the Create page to start creating your own!
   `;
+
   const filteredMaterials = learningMaterials.filter((material) =>
     material.title.toLowerCase().startsWith(searchQuery.toLowerCase())
   );
+
   const filteredPopularWikis = popularWikis.filter((wiki) => {
     return wiki.title.toLowerCase().startsWith(searchQuery.toLowerCase());
   });
+
   return (
     <div className="bg-gray-50">
       <div className="pt-4">
@@ -110,33 +119,13 @@ const NewHomePage = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="mb-2"
           />
-          <div className="overflow-hidden">
-            <Swiper
-              navigation={true}
-              modules={[Navigation]}
-              className="mySwiper"
-              spaceBetween={50}
-              slidesPerView={1}
-              onSlideChange={() => console.log("slide change")}
-              onSwiper={(swiper) => console.log(swiper)}
-            >
-              <SwiperSlide>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                  {filteredMaterials.slice(0, 8).map((material) => (
-                    <WikiCard key={material.id} {...material} />
-                  ))}
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                  {filteredMaterials.slice(0, 8).map((material) => (
-                    <WikiCard key={material.id} {...material} />
-                  ))}
-                </div>
-              </SwiperSlide>
-            </Swiper>
+          <div className="overflow-y-auto max-h-[425px]">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {filteredMaterials.map((material) => (
+                <WikiCard key={material.id} {...material} />
+              ))}
+            </div>
           </div>
-
           <div className="text-xl font-bold mr-8 flex items-end mt-6">
             Try it out!
           </div>
@@ -150,18 +139,22 @@ const NewHomePage = () => {
           <div className="text-xl font-bold mr-8 flex items-end">
             Popular Wikis
           </div>
-          <div className="flex-wrap justify-center grid grid-cols-2 md:grid-cols-4 gap-6 justify-center items-start mb-12">
-            {filteredPopularWikis.map((wiki) => (
-              <WikiCard key={wiki.id} {...wiki} />
-            ))}
+          <div className="overflow-y-auto max-h-[210px]">
+            <div className="flex-wrap justify-center grid grid-cols-2 md:grid-cols-4 gap-6 justify-center items-start mb-12">
+              {filteredMaterials.map((wiki) => (
+                <WikiCard key={wiki.id} {...wiki} />
+              ))}
+            </div>
           </div>
           <div className="text-xl font-bold mr-8 flex items-end">
             Top Creators
           </div>
-          <div className="flex-wrap justify-center grid grid-cols-2 md:grid-cols-4 gap-6 justify-center items-start mb-24">
-            {creators.map((creator) => (
-              <CreatorCard key={creator.id} {...creator} />
-            ))}
+          <div className="overflow-y-auto max-h-[210px] mb-24">
+            <div className="flex-wrap justify-center grid grid-cols-2 md:grid-cols-4 gap-6 justify-center items-start">
+              {creators.map((creator) => (
+                <CreatorCard key={creator.id} {...creator} />
+              ))}
+            </div>
           </div>
         </div>
       </div>

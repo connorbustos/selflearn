@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import WikiEditor from "@/components/WikiEditor";
 import { Toaster } from "@/components/ui/toaster";
@@ -7,15 +7,24 @@ import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { useWikiDataStore } from "@/store/wikiData.store";
 import { useSession } from "next-auth/react";
+import { Switch } from "@/components/ui/switch";
 
 const CreateWiki: React.FC = () => {
   const { toast } = useToast();
-
   const { data: session } = useSession();
-
   const { title, content, owner } = useWikiDataStore();
 
+  const [isDraft, setIsDraft] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  const handleSuccessfulCreation = () => {
+    toast({
+      description: "Wiki Successfully Created!",
+    });
+  };
+
   const handleSubmit = async (values: any) => {
+    setIsDisabled(true);
     try {
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -23,6 +32,7 @@ const CreateWiki: React.FC = () => {
       const raw = JSON.stringify({
         title: values.title,
         content: content,
+        isDraft: isDraft,
         owner: session?.user?.name,
       });
 
@@ -40,6 +50,9 @@ const CreateWiki: React.FC = () => {
       console.log(result);
     } catch (error) {
       console.log("error", error);
+    } finally {
+      setIsDisabled(false);
+      handleSuccessfulCreation();
     }
   };
 
@@ -50,6 +63,10 @@ const CreateWiki: React.FC = () => {
       </div>
     );
   }
+
+  const handleIsDraftChange = () => {
+    setIsDraft(!isDraft);
+  };
 
   return (
     <div className="w-full max-w-6xl mx-auto my-10">
@@ -73,12 +90,23 @@ const CreateWiki: React.FC = () => {
                 type="text"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Enter Wiki Title"
+                disabled={isDisabled}
               />
               <WikiEditor />
             </div>
             <Toaster />
+            <div className="flex items-center mb-2">
+              <Switch
+                checked={isDraft}
+                disabled={isDisabled}
+                onCheckedChange={handleIsDraftChange}
+              />
+              <span className="ml-2 align-middle">Save as Draft</span>
+            </div>
             <div className="flex items-center justify-center">
-              <Button type={"submit"}>Create Wiki</Button>
+              <Button type={"submit"} disabled={isDisabled}>
+                Create Wiki
+              </Button>
             </div>
           </Form>
         )}

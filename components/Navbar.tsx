@@ -28,11 +28,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentPath }) => {
   return (
     <nav className="text-black py-3 px-6 flex justify-between border-b border-gray-300">
       <div className="flex items-center">
-        <div className="text-xl font-bold mr-8 scale-125">SelfLearn</div>
+        <Link href="/search">
+          <div className="text-xl font-bold mr-8 scale-125">SelfLearn</div>
+        </Link>
         <ul className="flex space-x-4 items-end">
-          <Link href="/search">
-            <div className="hover:text-gray-300">Search</div>
-          </Link>
           <Link href="/create_new_wiki">
             <div className="hover:text-gray-300">Create</div>
           </Link>
