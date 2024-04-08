@@ -1,7 +1,9 @@
 "use client";
+
 import React from "react";
 import Navbar from "../components/Navbar";
 import { usePathname } from "next/navigation";
+import SessionWrapper from "../components/SessionWrapper";
 import "./globals.css";
 
 export default function RootLayout({
@@ -9,13 +11,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
+  const pathName = usePathname();
   return (
-    <html lang="en">
-      <body>
-        <Navbar currentPath={pathname} />
-        {children}
-      </body>
-    </html>
+    <SessionWrapper>
+      <html lang="en">
+        <body>
+          <Navbar currentPath={pathName} />
+          {children}
+        </body>
+      </html>
+    </SessionWrapper>
   );
 }

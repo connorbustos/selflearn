@@ -6,34 +6,28 @@ import {
   CardContent,
   Card,
 } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { signIn, useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
-export default function Component() {
+export default function Login() {
+  const { data: session } = useSession();
+
+  if (session) {
+    redirect("/");
+  }
+
   return (
     <div className="flex justify-center items-center h-screen">
       <Card className="mx-auto max-w-sm">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Login</CardTitle>
           <CardDescription>
-            Log in to SelfLearn with your username and password.
+            Login to SelfLearn with your Github or Google account
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Username</Label>
-              <Input id="username" placeholder="username" required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" required type="password" />
-            </div>
-            <Button className="w-full" type="submit">
-              Login
-            </Button>
-          </div>
+          <Button onClick={() => signIn("github")}>Sign in with Github</Button>
         </CardContent>
       </Card>
     </div>

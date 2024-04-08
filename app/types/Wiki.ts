@@ -12,4 +12,6 @@ export type WikiData = {
   content: Array<WikiContent>;
   owner: string;
   isDraft?: boolean;
+  datePublished?: string;
+  dateModified?: string;
 };
