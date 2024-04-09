@@ -44,7 +44,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 
   const { content, setContent } = useWikiDataStore();
 
-  const existingContent = content.find((item) => item.id === codeId);
+  const existingContent = content.find((item: any) => item.id === codeId);
 
   const handleEditorChange = (value: string | undefined) => {
     setCode(value ?? "");
@@ -81,6 +81,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       setContent([...content, newContent]);
       setDisableButton(true);
     }
+    console.log(content);
   };
 
   return (

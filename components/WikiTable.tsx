@@ -63,6 +63,25 @@ const WikiTable = async ({ owner }: WikiTableProps) => {
           </TableRow>
         </TableHeader>
         <TableBody>
+          {userDrafts.map((wiki: WikiData) => {
+            return (
+              <TableRow key={userDrafts.indexOf(wiki)}>
+                <TableCell>Draft</TableCell>
+                <TableCell>{wiki.title}</TableCell>
+                <TableCell className="text-right">
+                  {wiki.datePublished ?? "04/03/2024"}
+                </TableCell>
+                <TableCell className="text-right">
+                  {wiki.dateModified ?? "04/04/2024"}
+                </TableCell>
+                <TableCell className="text-right">
+                  <Button className="min-w-[96px] max-w-[96px]">
+                    <Link href={`/edit_wiki/${wiki.id}`}>Edit Wiki</Link>
+                  </Button>
+                </TableCell>
+              </TableRow>
+            );
+          })}
           {data.map((wiki: WikiData) => {
             return (
               <TableRow key={data.indexOf(wiki)}>
@@ -76,27 +95,7 @@ const WikiTable = async ({ owner }: WikiTableProps) => {
                 </TableCell>
                 <TableCell className="text-right">
                   <Button className="min-w-[96px] max-w-[96px]">
-                    <Link href={`/view_wiki/${wiki.id}`}>View Wiki</Link>
-                  </Button>
-                </TableCell>
-              </TableRow>
-            );
-          })}
-          {userDrafts.map((wiki: WikiData) => {
-            return (
-              <TableRow key={userDrafts.indexOf(wiki)}>
-                <TableCell>Draft</TableCell>
-                <TableCell>{wiki.title}</TableCell>
-                <TableCell className="text-right">
-                  {wiki.datePublished ?? "04/03/2024"}
-                </TableCell>
-                <TableCell className="text-right">
-                  {wiki.dateModified ?? "04/04/2024"}
-                </TableCell>
-                <TableCell className="text-right">
-                  {/** TODO: Make this button load the wiki draft contents into the wiki editor! */}
-                  <Button className="min-w-[96px] max-w-[96px]">
-                    Edit Wiki
+                    <Link href={`/edit_wiki/${wiki.id}`}>Edit Wiki</Link>
                   </Button>
                 </TableCell>
               </TableRow>

@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MarkdownEditor from "./MarkdownEditor";
 import CodeEditor from "./CodeEditor";
 import { Button } from "./ui/button";
-import { useWikiDataStore } from "@/store/wikiData.store";
 import Link from "next/link";
-import { WikiContent } from "@/app/types/Wiki";
+import { WikiContent, WikiData } from "@/app/types/Wiki";
 import { v4 as uuidv4 } from "uuid";
 
-const WikiEditor: React.FC = () => {
-  const { content } = useWikiDataStore();
-  const [components, setComponents] = useState<Array<WikiContent>>(content);
+interface WikiEditorProps {
+  wiki?: WikiData;
+}
+
+const WikiEditor: React.FC<WikiEditorProps> = ({ wiki }) => {
+  const [components, setComponents] = useState<Array<WikiContent>>(
+    wiki?.content || []
+  );
 
   const addMarkdownEditor = () => {
     setComponents([...components, { id: uuidv4(), type: "markdown" }]);
@@ -40,7 +44,7 @@ const WikiEditor: React.FC = () => {
                 <MarkdownEditor
                   key={component.id}
                   markdownId={component.id ?? ""}
-                  initialMarkdownText={""}
+                  initialMarkdownText={component.data ?? ""}
                   isEditingProp={true}
                   isOnViewWiki={false}
                 />
@@ -53,7 +57,7 @@ const WikiEditor: React.FC = () => {
                 >
                   <CodeEditor
                     codeId={component.id ?? ""}
-                    initialCode={"# Start coding here..."}
+                    initialCode={component.data ?? "# Start coding here..."}
                   />
                 </div>
               );

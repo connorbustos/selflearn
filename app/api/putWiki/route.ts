@@ -10,6 +10,7 @@ export async function POST(request: Request) {
   const isDraft: boolean = wikiData.isDraft || false;
   const collectionName = isDraft ? "WikiDrafts" : "AllWikis";
   const objectId = new ObjectId(wikiData.id);
+  delete wikiData.id;
 
   const result = await db
     .collection(collectionName)

@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     }
 
     const result = await db
-      .collection("AllWikis")
+      .collection("WikiDrafts")
       .findOne({ _id: new ObjectId(wikiId) });
     if (!result) {
       throw new Error("Wiki not found");
@@ -28,6 +28,8 @@ export async function GET(request: NextRequest) {
       owner: result.owner,
       isDraft: result.isDraft,
     };
+
+    console.log(result);
 
     return new Response(JSON.stringify(wikiData), {
       status: 200,
