@@ -20,7 +20,9 @@ const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
   );
 
   useEffect(() => {
-    setFieldValue!("content", components);
+    if (setFieldValue) {
+      setFieldValue("content", components);
+    }
   }, [components, setFieldValue]);
 
   const addMarkdownEditor = () => {
