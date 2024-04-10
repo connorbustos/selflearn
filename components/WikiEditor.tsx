@@ -1,19 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MarkdownEditor from "./MarkdownEditor";
 import CodeEditor from "./CodeEditor";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { WikiContent, WikiData } from "@/app/types/Wiki";
+import { FormikHelpers } from "formik";
 import { v4 as uuidv4 } from "uuid";
 
 interface WikiEditorProps {
   wiki?: WikiData;
+  setFieldValue?: FormikHelpers<{
+    content: Array<WikiContent>;
+  }>["setFieldValue"];
 }
 
-const WikiEditor: React.FC<WikiEditorProps> = ({ wiki }) => {
+const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
   const [components, setComponents] = useState<Array<WikiContent>>(
     wiki?.content || []
   );
+
+  useEffect(() => {
+    setFieldValue!("content", components);
+  }, [components, setFieldValue]);
 
   const addMarkdownEditor = () => {
     setComponents([...components, { id: uuidv4(), type: "markdown" }]);

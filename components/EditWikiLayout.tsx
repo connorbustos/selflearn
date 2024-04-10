@@ -1,11 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import WikiEditor from "@/components/WikiEditor";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
-import { useWikiDataStore } from "@/store/wikiData.store";
 import { useSession } from "next-auth/react";
 import { Switch } from "@/components/ui/switch";
 import moment from "moment";
@@ -18,7 +17,6 @@ interface EditWikiLayoutProps {
 const EditWikiLayout: React.FC<EditWikiLayoutProps> = ({ wiki }) => {
   const { toast } = useToast();
   const { data: session } = useSession();
-  const { content } = useWikiDataStore();
 
   const [isDraft, setIsDraft] = useState(wiki.isDraft);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -34,11 +32,10 @@ const EditWikiLayout: React.FC<EditWikiLayoutProps> = ({ wiki }) => {
     try {
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-
       const raw = JSON.stringify({
         id: wiki.id,
         title: values.title,
-        content: content,
+        content: values.content,
         isDraft: isDraft,
         owner: session?.user?.name,
         dateModified: moment().format("MM/DD/YYYY"),
@@ -82,10 +79,6 @@ const EditWikiLayout: React.FC<EditWikiLayoutProps> = ({ wiki }) => {
     }
   };
 
-  useEffect(() => {
-    console.log(wiki);
-  }, [content, wiki]);
-
   if (!session) {
     return (
       <div className="w-full max-w-6xl mx-auto my-10">
@@ -105,7 +98,7 @@ const EditWikiLayout: React.FC<EditWikiLayoutProps> = ({ wiki }) => {
         initialValues={{ title: wiki.title ?? "", content: wiki.content ?? [] }}
         onSubmit={handleSubmit}
       >
-        {() => (
+        {({ setFieldValue }) => (
           <Form className="bg-white shadow-md rounded px-4 pt-4 pb-4 mb-2">
             <div className="mb-2">
               <label
@@ -122,7 +115,7 @@ const EditWikiLayout: React.FC<EditWikiLayoutProps> = ({ wiki }) => {
                 placeholder={"Enter Wiki Title"}
                 disabled={isDisabled}
               />
-              <WikiEditor wiki={wiki} />
+              <WikiEditor wiki={wiki} setFieldValue={setFieldValue} />
             </div>
             <Toaster />
             <div className="flex items-center mb-2">
