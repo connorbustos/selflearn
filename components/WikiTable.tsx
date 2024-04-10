@@ -76,9 +76,7 @@ const WikiTable = async ({ owner }: WikiTableProps) => {
                 </TableCell>
                 <TableCell className="text-right">
                   <Button className="min-w-[96px] max-w-[96px]">
-                    <Link href={`/edit_wiki/${wiki.id}-isDraft`}>
-                      Edit Wiki
-                    </Link>
+                    <Link href={`/edit_wiki/${wiki.id}`}>Edit Wiki</Link>
                   </Button>
                 </TableCell>
               </TableRow>

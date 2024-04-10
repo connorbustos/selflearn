@@ -39,28 +39,44 @@ export async function generateStaticParams() {
 }
 
 async function generateSlug(slug: string) {
-  const [wikiId, isDraft] = slug.split("-");
   let wikiData = [];
+
   try {
-    const endpoint = isDraft ? "getWikiDraft" : "getWiki";
     const response = await fetch(
-      `${process.env.LOCAL_TEST_URL}/api/${endpoint}?wikiId=${wikiId}`
+      `${process.env.LOCAL_TEST_URL}/api/getWiki?wikiId=${slug}`
     );
+
     if (!response.ok) {
-      throw new Error(`Failed to fetch wiki data from ${endpoint}`);
+      throw new Error("Failed to fetch wiki data");
     }
+
     wikiData = await response.json();
   } catch (error) {
-    console.error(
-      `Wiki data was null (${isDraft ? "getWikiDraft" : "getWiki"}):`,
-      error
-    );
+    console.error("Wiki data was null (getWiki):", error);
+
+    try {
+      const retryResponse = await fetch(
+        `${process.env.LOCAL_TEST_URL}/api/getWikiDraft?wikiId=${slug}`
+      );
+      if (retryResponse.ok) {
+        wikiData = await retryResponse.json();
+
+        console.log(wikiData);
+      }
+    } catch (retryError) {
+      console.error(
+        "Wiki data was null... again (getWikiDraft). Which means the Wiki doesn't exist:",
+        retryError
+      );
+    }
   }
+
   return wikiData;
 }
 
 const EditWiki = async ({ params }: { params: { slug: string } }) => {
   const wikiData = await generateSlug(params.slug);
+
   return (
     <ChakraProvider>
       <div className="w-full py-4 px-4 content-center">
