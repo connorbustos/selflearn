@@ -10,6 +10,8 @@ import { Switch } from "@/components/ui/switch";
 import moment from "moment";
 import { WikiData } from "@/app/types/Wiki";
 
+import { useWikiDataStore } from "@/store/wikiData.store";
+
 interface EditWikiLayoutProps {
   wiki: WikiData;
 }
@@ -17,7 +19,8 @@ interface EditWikiLayoutProps {
 const EditWikiLayout: React.FC<EditWikiLayoutProps> = ({ wiki }) => {
   const { toast } = useToast();
   const { data: session } = useSession();
-  console.log("inside EditWikiLayout: ", wiki);
+  const { content } = useWikiDataStore();
+
   const [isDraft, setIsDraft] = useState(wiki.isDraft);
   const [isDisabled, setIsDisabled] = useState(false);
 
@@ -29,14 +32,13 @@ const EditWikiLayout: React.FC<EditWikiLayoutProps> = ({ wiki }) => {
 
   const handleSubmit = async (values: any) => {
     setIsDisabled(true);
-    console.log("INSIDE SUBMIT", values);
     try {
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       const raw = JSON.stringify({
         id: wiki.id,
         title: values.title,
-        content: values.content,
+        content: content,
         isDraft: isDraft,
         owner: session?.user?.name,
         dateModified: moment().format("MM/DD/YYYY"),
