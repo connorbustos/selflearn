@@ -81,7 +81,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       setContent([...content, newContent]);
       setDisableButton(true);
     }
-    console.log(content);
   };
 
   return (

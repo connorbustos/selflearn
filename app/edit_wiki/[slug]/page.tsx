@@ -32,7 +32,6 @@ const EditWiki = ({ params }: { params: { slug: string } }) => {
   useEffect(() => {
     const fetchWikiData = async () => {
       const data = await generateSlug(params.slug);
-      console.log("data", data);
       setWikiData(data);
     };
     fetchWikiData();
@@ -41,7 +40,13 @@ const EditWiki = ({ params }: { params: { slug: string } }) => {
   return (
     <ChakraProvider>
       <div className="w-full py-4 px-4 content-center">
-        {wikiData ? <EditWikiLayout wiki={wikiData} /> : <Spinner />}
+        {wikiData ? (
+          <EditWikiLayout wiki={wikiData} />
+        ) : (
+          <div className="absolute inset-0 flex justify-center items-center pt-80">
+            <Spinner size="xl" />
+          </div>
+        )}
       </div>
     </ChakraProvider>
   );
