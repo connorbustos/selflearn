@@ -40,7 +40,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   const [code, setCode] = useState(initialCode);
   const [editable, setEditable] = useState(true);
   const [language, setLanguage] = useState(languages[0].value);
-  const [disableButton, setDisableButton] = useState(false);
 
   const { content, setContent } = useWikiDataStore();
 
@@ -48,17 +47,14 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 
   const handleEditorChange = (value: string | undefined) => {
     setCode(value ?? "");
-    setDisableButton(false);
   };
 
   const handleLanguageChange = (value: string) => {
     setLanguage(value);
-    setDisableButton(false);
   };
 
   const handleIsEditableChange = () => {
     setEditable(!editable);
-    setDisableButton(false);
   };
 
   const handleSave = () => {
@@ -79,9 +75,12 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         data: code ?? "",
       };
       setContent([...content, newContent]);
-      setDisableButton(true);
     }
   };
+
+  useEffect(() => {
+    handleSave();
+  }, [code]);
 
   return (
     <div className="flex flex-col">
@@ -116,14 +115,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
             ))}
           </SelectContent>
         </Select>
-        <Button
-          type={"button"}
-          onClick={handleSave}
-          variant={disableButton ? "disabled" : "default"}
-          className={"mt-2"}
-        >
-          Save Changes
-        </Button>
       </div>
       <div className="border-t border-gray-200 py-2">
         <CodeRunner code={code}></CodeRunner>
