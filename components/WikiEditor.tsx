@@ -6,6 +6,8 @@ import Link from "next/link";
 import { WikiContent, WikiData } from "@/app/types/Wiki";
 import { FormikHelpers } from "formik";
 import { v4 as uuidv4 } from "uuid";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
 
 interface WikiEditorProps {
   wiki?: WikiData;
@@ -19,6 +21,8 @@ const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
     wiki?.content || []
   );
 
+  const { toast } = useToast();
+
   useEffect(() => {
     if (setFieldValue) {
       setFieldValue("content", components);
@@ -27,10 +31,16 @@ const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
 
   const addMarkdownEditor = () => {
     setComponents([...components, { id: uuidv4(), type: "markdown" }]);
+    toast({
+      description: "Markdown Editor Added!",
+    });
   };
 
   const addCodeEditor = () => {
     setComponents([...components, { id: uuidv4(), type: "code" }]);
+    toast({
+      description: "Code Editor Added!",
+    });
   };
 
   return (
@@ -46,7 +56,7 @@ const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
           <Button type="button">Preview Wiki</Button>
         </Link>
       </div>
-      <div className="flex flex-col gap-y-4 overflow-auto max-h-screen">
+      <div className="flex flex-col gap-y-4">
         {components.map((component) => {
           switch (component.type) {
             case "markdown":
