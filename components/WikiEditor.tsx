@@ -56,6 +56,7 @@ const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
           <Button type="button">Preview Wiki</Button>
         </Link>
       </div>
+      <Toaster />
       <div className="flex flex-col gap-y-4">
         {components.map((component) => {
           switch (component.type) {
