@@ -1,26 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MarkdownEditor from "./MarkdownEditor";
 import CodeEditor from "./CodeEditor";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { WikiContent, WikiData } from "@/app/types/Wiki";
+import { FormikHelpers } from "formik";
 import { v4 as uuidv4 } from "uuid";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
 
 interface WikiEditorProps {
   wiki?: WikiData;
+  setFieldValue?: FormikHelpers<{
+    content: Array<WikiContent>;
+  }>["setFieldValue"];
 }
 
-const WikiEditor: React.FC<WikiEditorProps> = ({ wiki }) => {
+const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
   const [components, setComponents] = useState<Array<WikiContent>>(
     wiki?.content || []
   );
+  const [history, setHistory] = useState<Array<Array<WikiContent>>>([]);
+
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (setFieldValue) {
+      setFieldValue("content", components);
+    }
+  }, [components, setFieldValue]);
+
+  const addToHistory = (newState: Array<WikiContent>) => {
+    setHistory([...history, newState]);
+  };
 
   const addMarkdownEditor = () => {
-    setComponents([...components, { id: uuidv4(), type: "markdown" }]);
+    const newComponents = [...components, { id: uuidv4(), type: "markdown" }];
+    addToHistory(components);
+    setComponents(newComponents);
+    toast({
+      description: "Markdown Editor Added!",
+    });
   };
 
   const addCodeEditor = () => {
-    setComponents([...components, { id: uuidv4(), type: "code" }]);
+    const newComponents = [...components, { id: uuidv4(), type: "code" }];
+    addToHistory(components);
+    setComponents(newComponents);
+    toast({
+      description: "Code Editor Added!",
+    });
+  };
+
+  // small TODO: set the toast description to the type of component that was removed
+  const undoLastChange = () => {
+    if (history.length > 0) {
+      console.log(history);
+      const previousComponents = history.pop();
+      if (previousComponents) {
+        setComponents(previousComponents);
+        toast({
+          description: `Undo Successful!`,
+        });
+      }
+    }
   };
 
   return (
@@ -32,11 +75,15 @@ const WikiEditor: React.FC<WikiEditorProps> = ({ wiki }) => {
         <Button type="button" onClick={addCodeEditor}>
           Add Code Snippet
         </Button>
+        <Button type="button" onClick={undoLastChange}>
+          Undo
+        </Button>
         <Link href={"/view_wiki"}>
           <Button type="button">Preview Wiki</Button>
         </Link>
       </div>
-      <div className="flex flex-col gap-y-4 overflow-auto max-h-screen">
+      <Toaster />
+      <div className="flex flex-col gap-y-4">
         {components.map((component) => {
           switch (component.type) {
             case "markdown":

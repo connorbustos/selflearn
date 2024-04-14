@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { Button } from "./ui/button";
 import { useWikiDataStore } from "@/store/wikiData.store";
@@ -28,7 +28,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   };
 
   const handleEdit = () => {
-    setIsEditing(true); // Switch to edit mode
+    setIsEditing(true);
   };
 
   const handleSave = () => {
@@ -47,11 +47,11 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
       };
       setContent([...content, newContent]);
     }
-
-    setIsEditing(false); // Switch to view mode
   };
 
-  // markdown requires prose: https://stackoverflow.com/questions/75706164/problem-with-tailwind-css-when-using-the-react-markdown-component
+  useEffect(() => {
+    handleSave();
+  }, [markdownText]);
 
   return (
     <div className="flex justify-center items-center">
@@ -85,8 +85,12 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
           </div>
         )}
         {isEditing ? (
-          <Button type="button" className="w-fit" onClick={handleSave}>
-            Save Markdown
+          <Button
+            type="button"
+            className="w-fit"
+            onClick={() => setIsEditing(false)}
+          >
+            View Markdown
           </Button>
         ) : null}
       </div>
