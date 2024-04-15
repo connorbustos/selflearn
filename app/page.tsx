@@ -1,9 +1,8 @@
 "use client";
-import React from "react";
-import { Text } from "@radix-ui/themes";
+import { redirect } from "next/navigation";
 
 const HomePage = () => {
-  return <Text>go to /search or /markdown_editor</Text>;
+  redirect("/new_home_page");
 };
 
 export default HomePage;

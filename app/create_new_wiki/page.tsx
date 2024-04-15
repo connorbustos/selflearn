@@ -9,11 +9,12 @@ import { useWikiDataStore } from "@/store/wikiData.store";
 import { useSession } from "next-auth/react";
 import { Switch } from "@/components/ui/switch";
 import moment from "moment";
+import { redirect } from "next/navigation";
 
 const CreateWiki: React.FC = () => {
   const { toast } = useToast();
   const { data: session } = useSession();
-  const { title, content, owner } = useWikiDataStore();
+  const { title, content } = useWikiDataStore();
 
   const [isDraft, setIsDraft] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -62,11 +63,7 @@ const CreateWiki: React.FC = () => {
   };
 
   if (!session) {
-    return (
-      <div className="w-full max-w-6xl mx-auto my-10">
-        Please login to view the content
-      </div>
-    );
+    redirect("/login");
   }
 
   const handleIsDraftChange = () => {
