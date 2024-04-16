@@ -18,6 +18,12 @@ const ViewAllWikis = () => {
       }
       const data = await response.json();
       setWikis(data);
+      try {
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchLearningMaterials();
