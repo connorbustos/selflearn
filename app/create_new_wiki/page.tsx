@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import WikiEditor from "@/components/WikiEditor";
 import { Toaster } from "@/components/ui/toaster";
@@ -14,12 +14,13 @@ import { redirect } from "next/navigation";
 const CreateWiki: React.FC = () => {
   const { toast } = useToast();
   const { data: session } = useSession();
-  const { title, content } = useWikiDataStore();
+  const { title, content, setContent } = useWikiDataStore();
 
   const [isDraft, setIsDraft] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
 
   const handleSuccessfulCreation = () => {
+    setContent([]);
     toast({
       description: "Wiki Successfully Created!",
     });
@@ -74,7 +75,7 @@ const CreateWiki: React.FC = () => {
     <div className="w-full max-w-6xl mx-auto my-10">
       <h1 className="text-center text-2xl font-semibold mb-4">Create Wiki</h1>{" "}
       <Formik
-        initialValues={{ title: title ?? "", content: content ?? [] }}
+        initialValues={{ title: title ?? "", content: [] }}
         onSubmit={handleSubmit}
       >
         {() => (

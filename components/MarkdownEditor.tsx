@@ -4,12 +4,14 @@ import ReactMarkdown from "react-markdown";
 import { Button } from "./ui/button";
 import { useWikiDataStore } from "@/store/wikiData.store";
 import { WikiContent } from "@/app/types/Wiki";
+import { Trash2 } from "lucide-react";
 
 interface MarkdownEditorProps {
   markdownId?: string;
   initialMarkdownText: string;
   isEditingProp: boolean;
   isOnViewWiki: boolean;
+  onDelete?: () => void;
 }
 
 const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
@@ -17,6 +19,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   initialMarkdownText,
   isEditingProp,
   isOnViewWiki = true,
+  onDelete,
 }) => {
   const [markdownText, setMarkdownText] = useState(initialMarkdownText);
   const [isEditing, setIsEditing] = useState(isEditingProp);
@@ -93,6 +96,11 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
             View Markdown
           </Button>
         ) : null}
+        <div className={`w-10 ${onDelete === undefined ? "hidden" : "flex"}`}>
+          <Button onClick={onDelete}>
+            <Trash2 />
+          </Button>
+        </div>
       </div>
     </div>
   );

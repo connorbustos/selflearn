@@ -17,11 +17,13 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "./ui/button";
 import { useWikiDataStore } from "@/store/wikiData.store";
 import { WikiContent } from "@/app/types/Wiki";
+import { Trash2 } from "lucide-react";
 
 interface CodeEditorProps {
   codeId?: string;
   initialCode: string;
   isOwner?: boolean;
+  onDelete?: () => void;
 }
 
 const languages = [
@@ -36,6 +38,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   codeId,
   initialCode,
   isOwner = true,
+  onDelete,
 }) => {
   const [code, setCode] = useState(initialCode);
   const [editable, setEditable] = useState(true);
@@ -118,6 +121,11 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       </div>
       <div className="border-t border-gray-200 py-2">
         <CodeRunner code={code}></CodeRunner>
+      </div>
+      <div className={`w-10 ${onDelete === undefined ? "hidden" : "flex"}`}>
+        <Button onClick={onDelete}>
+          <Trash2 />
+        </Button>
       </div>
     </div>
   );
