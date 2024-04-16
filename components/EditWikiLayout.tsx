@@ -53,6 +53,7 @@ const EditWikiLayout: React.FC<EditWikiLayoutProps> = ({ wiki }) => {
         headers: myHeaders,
         body: JSON.stringify({
           id: wiki.id,
+          isDraft: wiki.isDraft,
         }),
       };
 
