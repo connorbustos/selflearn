@@ -12,18 +12,12 @@ const ViewAllWikis = () => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchLearningMaterials = async () => {
-      try {
-        const response = await fetch("/api/getAllWikis");
-        if (!response.ok) {
-          throw new Error("Failed to fetch learning materials");
-        }
-        const data = await response.json();
-        setWikis(data);
-      } catch (error) {
-        console.error("Error fetching learning materials:", error);
-      } finally {
-        setIsLoading(false);
+      const response = await fetch("/api/getAllWikis");
+      if (!response.ok) {
+        throw new Error("Failed to fetch learning materials");
       }
+      const data = await response.json();
+      setWikis(data);
     };
 
     fetchLearningMaterials();
