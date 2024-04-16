@@ -8,6 +8,7 @@ const config = {
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
   ],
+  safelist: ["pl-2", "pl-4", "pl-6", "pl-8", "pl-10", "pl-12"],
   prefix: "",
   theme: {
     container: {
@@ -75,6 +76,12 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      padding: {
+        "2": "0.5rem",
+        "4": "1.0rem",
+        "6": "1.5rem",
+        "8": "2.0rem",
       },
     },
   },

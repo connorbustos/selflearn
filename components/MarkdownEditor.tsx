@@ -4,7 +4,8 @@ import ReactMarkdown from "react-markdown";
 import { Button } from "./ui/button";
 import { useWikiDataStore } from "@/store/wikiData.store";
 import { WikiContent } from "@/app/types/Wiki";
-import { Trash2 } from "lucide-react";
+import { Table, Trash2 } from "lucide-react";
+import TableOfContents from "./TableOfContents";
 
 interface MarkdownEditorProps {
   markdownId?: string;
