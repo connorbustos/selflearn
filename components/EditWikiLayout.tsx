@@ -19,7 +19,7 @@ interface EditWikiLayoutProps {
 const EditWikiLayout: React.FC<EditWikiLayoutProps> = ({ wiki }) => {
   const { toast } = useToast();
   const { data: session } = useSession();
-  const { content, setContent } = useWikiDataStore();
+  const { content, setContent, setTitle } = useWikiDataStore();
 
   const [isDraft, setIsDraft] = useState(wiki.isDraft);
   const [isDisabled, setIsDisabled] = useState(false);

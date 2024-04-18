@@ -14,7 +14,7 @@ import { redirect } from "next/navigation";
 const CreateWiki: React.FC = () => {
   const { toast } = useToast();
   const { data: session } = useSession();
-  const { title, content, setContent } = useWikiDataStore();
+  const { title, content, setContent, setTitle } = useWikiDataStore();
 
   const [isDraft, setIsDraft] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -71,11 +71,16 @@ const CreateWiki: React.FC = () => {
     setIsDraft(!isDraft);
   };
 
+  const handleSaveChanges = (values: any) => {
+    console.log(title);
+    console.log(content);
+  };
+
   return (
     <div className="w-full max-w-6xl mx-auto my-10">
       <h1 className="text-center text-2xl font-semibold mb-4">Create Wiki</h1>{" "}
       <Formik
-        initialValues={{ title: title ?? "", content: [] }}
+        initialValues={{ title: "", content: [] }}
         onSubmit={handleSubmit}
       >
         {() => (
@@ -106,10 +111,11 @@ const CreateWiki: React.FC = () => {
               />
               <span className="ml-2 align-middle">Save as Draft</span>
             </div>
-            <div className="flex items-center justify-center">
+            <div className="flex gap-x-2 items-center justify-center">
               <Button type={"submit"} disabled={isDisabled}>
                 Create Wiki
               </Button>
+              <Button onClick={handleSaveChanges}>Save Changes</Button>
             </div>
           </Form>
         )}

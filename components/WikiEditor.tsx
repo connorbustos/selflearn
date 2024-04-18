@@ -22,7 +22,7 @@ const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
     wiki?.content || []
   );
 
-  const { setContent } = useWikiDataStore();
+  const { setContent, setTitle } = useWikiDataStore();
   const [history, setHistory] = useState<Array<Array<WikiContent>>>([]);
 
   const { toast } = useToast();
@@ -74,7 +74,6 @@ const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
   // small TODO: set the toast description to the type of component that was removed
   const undoLastChange = () => {
     if (history.length > 0) {
-      console.log(history);
       const previousComponents = history.pop();
       if (previousComponents) {
         setComponents(previousComponents);
@@ -84,6 +83,11 @@ const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
         });
       }
     }
+  };
+
+  const handlePreviewState = () => {
+    setContent(components);
+    setTitle(wiki?.title ?? "");
   };
 
   return (
@@ -98,7 +102,7 @@ const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
         <Button type="button" onClick={undoLastChange}>
           Undo
         </Button>
-        <Link href={"/view_wiki"}>
+        <Link onClick={handlePreviewState} href={"/preview_wiki"}>
           <Button type="button">Preview Wiki</Button>
         </Link>
       </div>
