@@ -9,6 +9,9 @@ import { v4 as uuidv4 } from "uuid";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import { useWikiDataStore } from "@/store/wikiData.store";
+import { DragDropContext, Draggable } from "react-beautiful-dnd";
+import { StrictModeDroppable } from "./StrictModeDroppable";
+import { GripVertical } from "lucide-react";
 
 interface WikiEditorProps {
   wiki?: WikiData;
@@ -74,7 +77,6 @@ const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
   // small TODO: set the toast description to the type of component that was removed
   const undoLastChange = () => {
     if (history.length > 0) {
-      console.log(history);
       const previousComponents = history.pop();
       if (previousComponents) {
         setComponents(previousComponents);
@@ -84,6 +86,18 @@ const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
         });
       }
     }
+  };
+
+  const handleOnDragEnd = (result: any) => {
+    if (!result.destination) return;
+
+    const items = Array.from(components);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setComponents(items);
+    setContent(items);
+    addToHistory(components);
   };
 
   return (
@@ -104,42 +118,91 @@ const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
       </div>
       <Toaster />
       <div className="flex flex-col gap-y-4">
-        {components.map((component) => {
-          switch (component.type) {
-            case "markdown":
-              return (
-                <div className="aspect-w-4 aspect-h-3 p-4 mt-0 border-2 border-solid border-gray-300 rounded-md">
-                  <MarkdownEditor
-                    key={component.id}
-                    markdownId={component.id ?? ""}
-                    initialMarkdownText={component.data ?? ""}
-                    isEditingProp={true}
-                    isOnViewWiki={false}
-                    onDelete={() => {
-                      handleDeleteComponent(component.id);
-                    }}
-                  />
-                </div>
-              );
-            case "code":
-              return (
-                <div
-                  key={component.id}
-                  className="aspect-w-4 aspect-h-3 p-4 mt-0 border-2 border-solid border-gray-300 rounded-md"
-                >
-                  <CodeEditor
-                    codeId={component.id ?? ""}
-                    initialCode={component.data ?? "# Start coding here..."}
-                    onDelete={() => {
-                      handleDeleteComponent(component.id);
-                    }}
-                  />
-                </div>
-              );
-            default:
-              return null;
-          }
-        })}
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <StrictModeDroppable droppableId={"components"} type="group">
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className="components w-full p-4 mt-2"
+              >
+                {components.map((component, index) => {
+                  switch (component.type) {
+                    case "markdown":
+                      return (
+                        <Draggable
+                          key={component.id}
+                          draggableId={component.id}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              className="components flex flex-row-reverse gap-x-2 w-full p-4 mt-4 border-2 border-solid border-gray-300 rounded-md"
+                            >
+                              <div
+                                className={"h-fit pl-2"}
+                                {...provided.dragHandleProps}
+                              >
+                                <GripVertical />
+                              </div>
+                              <MarkdownEditor
+                                markdownId={component.id ?? ""}
+                                initialMarkdownText={component.data ?? ""}
+                                isEditingProp={true}
+                                isOnViewWiki={false}
+                                onDelete={() => {
+                                  handleDeleteComponent(component.id);
+                                }}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+                    case "code":
+                      return (
+                        <Draggable
+                          key={component.id}
+                          draggableId={component.id}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              className="components flex flex-row-reverse gap-x-2 w-full p-4 mt-4 border-2 border-solid border-gray-300 rounded-md"
+                            >
+                              <div
+                                className={"h-fit pl-2"}
+                                {...provided.dragHandleProps}
+                              >
+                                <GripVertical />
+                              </div>
+                              <CodeEditor
+                                key={component.id}
+                                codeId={component.id ?? ""}
+                                initialCode={
+                                  component.data ?? "# Start coding here..."
+                                }
+                                onDelete={() => {
+                                  handleDeleteComponent(component.id);
+                                }}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+
+                    default:
+                      return null;
+                  }
+                })}
+                {provided.placeholder}
+              </div>
+            )}
+          </StrictModeDroppable>
+        </DragDropContext>
       </div>
     </div>
   );

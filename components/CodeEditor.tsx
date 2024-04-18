@@ -86,7 +86,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   }, [code]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full">
       <div className="mb-1">
         <Editor
           height="400px"
