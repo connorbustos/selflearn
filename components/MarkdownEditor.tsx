@@ -58,8 +58,8 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   }, [markdownText]);
 
   return (
-    <div className="flex justify-center items-center">
-      <div className="flex flex-col w-full max-w-7xl gap-y-2">
+    <div className="flex justify-center items-center w-full">
+      <div className="flex flex-col w-full gap-y-2">
         {!isEditing ? (
           <div className="flex flex-col items-center justify-center">
             <div className="prose lg:prose-base p-4 w-full md:max-w-4xl">
