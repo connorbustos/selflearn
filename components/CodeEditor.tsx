@@ -8,16 +8,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "./ui/button";
 import { useWikiDataStore } from "@/store/wikiData.store";
 import { WikiContent } from "@/app/types/Wiki";
 import { Trash2 } from "lucide-react";
+
+const LINE_HEIGHT = 20;
+const MIN_EDITOR_HEIGHT = 100;
+const MAX_EDITOR_HEIGHT = 800;
 
 interface CodeEditorProps {
   codeId?: string;
@@ -43,6 +42,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   const [code, setCode] = useState(initialCode);
   const [editable, setEditable] = useState(true);
   const [language, setLanguage] = useState(languages[0].value);
+  const [editorHeight, setEditorHeight] = useState("100px"); // Default height
 
   const { content, setContent } = useWikiDataStore();
 
@@ -50,6 +50,12 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 
   const handleEditorChange = (value: string | undefined) => {
     setCode(value ?? "");
+    const lineCount = (value ?? "").split("\n").length;
+    const calculatedHeight = Math.min(
+      Math.max(lineCount * LINE_HEIGHT, MIN_EDITOR_HEIGHT),
+      MAX_EDITOR_HEIGHT
+    );
+    setEditorHeight(`${calculatedHeight}px`);
   };
 
   const handleLanguageChange = (value: string) => {
@@ -89,7 +95,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     <div className="flex flex-col w-full">
       <div className="mb-1">
         <Editor
-          height="400px"
+          height={editorHeight}
           defaultLanguage={language}
           language={language}
           value={code}
