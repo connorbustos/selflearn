@@ -51,7 +51,7 @@ export const useLLM = () => {
           mode: "no-cors",
           method: "GET",
           headers: {
-            Authorization: `Bearer r8_2u9Q6Db8Oib8QAX5w6eqDN3dqW9n0mH0ntIwR`,
+            Authorization: `Bearer ${process.env.REPLICATE_API_KEY}`,
           },
         }
       );
