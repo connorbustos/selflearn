@@ -15,7 +15,7 @@ import { WikiContent } from "@/app/types/Wiki";
 import { Trash2 } from "lucide-react";
 
 const LINE_HEIGHT = 20;
-const MIN_EDITOR_HEIGHT = 100;
+const MIN_EDITOR_HEIGHT = 200;
 const MAX_EDITOR_HEIGHT = 800;
 
 interface CodeEditorProps {
@@ -42,7 +42,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   const [code, setCode] = useState(initialCode);
   const [editable, setEditable] = useState(true);
   const [language, setLanguage] = useState(languages[0].value);
-  const [editorHeight, setEditorHeight] = useState("100px"); // Default height
+  const [editorHeight, setEditorHeight] = useState(`${MIN_EDITOR_HEIGHT}px`);
 
   const { content, setContent } = useWikiDataStore();
 
