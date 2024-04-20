@@ -8,11 +8,14 @@ import { WikiData } from "../../types/Wiki";
 // THIS IS A SERVERSIDE COMPONENT.
 // DO NOT USE ANY CLIENT-SIDE HOOKS.
 
+const api_url =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : process.env.NEXT_PUBLIC_BASE_URL;
+
 export async function generateStaticParams() {
   try {
-    const response = await fetch(
-      `${process.env.LOCAL_TEST_URL}/api/getAllWikis`
-    );
+    const response = await fetch(`${api_url}/api/getAllWikis`);
     const data = await response.json();
 
     const wikiDataList: WikiData[] = data.map((doc: any) => ({
@@ -32,9 +35,7 @@ export async function generateStaticParams() {
 }
 
 const ViewWiki = async ({ params }: { params: { slug: string } }) => {
-  const response = await fetch(
-    `${process.env.LOCAL_TEST_URL}/api/getWiki?wikiId=${params.slug}`
-  );
+  const response = await fetch(`${api_url}/api/getWiki?wikiId=${params.slug}`);
   const wikiData = await response.json();
 
   return (
