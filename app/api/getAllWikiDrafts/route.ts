@@ -5,7 +5,9 @@ export async function GET(request: Request) {
   try {
     const client = await clientPromise;
     const db = client.db();
-    const result = await db.collection("WikiDrafts").find().toArray();
+    const collectionName =
+      process.env.NODE_ENV === "production" ? "WikiDraftsProd" : "WikiDrafts";
+    const result = await db.collection(collectionName).find().toArray();
     return NextResponse.json(result);
   } catch (error) {
     console.error("Error:", error);
