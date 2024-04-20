@@ -20,14 +20,15 @@ const PromptSender: React.FC = () => {
   const handleSendPrompt = async () => {
     const response = await postPrompt(prompt);
     if (response.result) {
-      setResult(response.result.output.join(""));
+      const display = response.result.output.join("");
+      setResult(display);
     } else {
       setResult("No result received. Check logs or try again.");
     }
   };
 
   return (
-    <div className="flex flex-col p-4 space-y-4 mx-auto aspect-w-4 aspect-h-3 max-w-xl bg-white shadow-lg rounded">
+    <div className="flex flex-col p-4 space-y-4 mx-auto aspect-w-16 aspect-h-9 max-w-xl bg-white shadow-lg rounded">
       <Textarea
         placeholder="Enter your prompt here"
         value={prompt}
