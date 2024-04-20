@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useLLM } from "@/hooks/useLLM";
+import ReactMarkdown from "react-markdown";
 
 const PromptSender: React.FC = () => {
   const [prompt, setPrompt] = useState("");
@@ -19,7 +20,7 @@ const PromptSender: React.FC = () => {
   const handleSendPrompt = async () => {
     const response = await postPrompt(prompt);
     if (response.result) {
-      setResult(response.result.output);
+      setResult(response.result.output.join(""));
     } else {
       setResult("No result received. Check logs or try again.");
     }
@@ -44,7 +45,9 @@ const PromptSender: React.FC = () => {
       )}
       {result && (
         <div className="mt-4 p-3 border rounded shadow-sm bg-white">
-          {result}
+          <div className="prose lg:prose-base p-4 w-full md:max-w-4xl">
+            <ReactMarkdown>{result}</ReactMarkdown>
+          </div>
         </div>
       )}
     </div>
