@@ -30,7 +30,7 @@ const WikiLayout = ({ wikiData }: WikiLayoutProps) => {
           {content?.map((item, index) => {
             if (item.type === "code") {
               return (
-                <div key={index} className="w-full shadow-md">
+                <div key={index} className="py-3 px-4 w-full shadow-md">
                   <CodeEditor initialCode={item.data ?? ""} />
                 </div>
               );
