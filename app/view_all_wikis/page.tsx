@@ -3,31 +3,13 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { Grid, Text, Box, Input, Spinner } from "@chakra-ui/react";
 import { ChakraProvider } from "@chakra-ui/react";
+import { useGetAllWikis } from "@/hooks/useGetAllWikis";
 
 import styles from "../../css/SearchLearningPlans.module.css";
 
 const ViewAllWikis = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [wikis, setWikis] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    const fetchLearningMaterials = async () => {
-      const response = await fetch("/api/getAllWikis");
-      if (!response.ok) {
-        throw new Error("Failed to fetch learning materials");
-      }
-      const data = await response.json();
-      setWikis(data);
-      try {
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchLearningMaterials();
-  }, []);
+  const { wikis, isLoading } = useGetAllWikis();
 
   const filteredWikis = wikis.filter(
     (wiki: any) =>

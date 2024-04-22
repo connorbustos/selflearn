@@ -1,109 +1,104 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import WikiCard from "@/components/WikiCard";
 import MarkdownEditor from "@/components/MarkdownEditor";
 import CreatorCard from "@/components/CreatorCard";
-import Link from "next/link";
+import { useGetAllWikis } from "@/hooks/useGetAllWikis";
+import { ChakraProvider, Spinner } from "@chakra-ui/react";
+import WikiLoadingPlaceholder from "@/components/WikiLoadingPlaceholder";
+import { marked } from "marked";
+import { WikiData } from "../types/Wiki";
 
 const NewHomePage = () => {
-  // Sample list of learning materials
-  const learningMaterials = [
-    {
-      id: 1,
-      title: "Introduction to React",
-      description: "Learn the basics of React.",
-    },
-    {
-      id: 2,
-      title: "Advanced React",
-      description: "Dive deeper into React concepts.",
-    },
-    { id: 3, title: "React Hooks", description: "Understanding React Hooks." },
-    {
-      id: 4,
-      title: "State Management in React",
-      description: "Explore state management.",
-    },
-    {
-      id: 5,
-      title: "Web Development Fundamentals",
-      description: "An introduction to HTML, CSS, and JavaScript.",
-    },
-    {
-      id: 6,
-      title: "Understanding Algorithms",
-      description: "Basics of algorithms and their applications.",
-    },
-    {
-      id: 7,
-      title: "Data Structures 101",
-      description:
-        "Learn about common data structures used in software development.",
-    },
-    {
-      id: 8,
-      title: "Introduction to Databases",
-      description: "Understanding relational and NoSQL databases.",
-    },
-    {
-      id: 9,
-      title: "Introduction to Databases",
-      description: "Understanding relational and NoSQL databases.",
-    },
-    {
-      id: 10,
-      title: "Introduction to Databases",
-      description: "Understanding relational and NoSQL databases.",
-    },
-  ];
-
-  const popularWikis = [
-    {
-      id: 1,
-      title: "Basics of Machine Learning",
-      description: "Dive into the world of machine learning and its uses.",
-    },
-    {
-      id: 2,
-      title: "Deep Learning and Neural Networks",
-      description: "Explore the fundamentals of deep learning.",
-    },
-  ];
-
-  const creators = [
-    {
-      id: 1,
-      name: "Connor Bustos",
-      wikisCount: 5,
-    },
-    {
-      id: 2,
-      name: "Isaac Kim",
-      wikisCount: 8,
-    },
-    {
-      id: 3,
-      name: "Sahiti Hibane",
-      wikisCount: 12,
-    },
-  ];
-
+  const { wikis, isLoading } = useGetAllWikis();
   const [searchQuery, setSearchQuery] = useState("");
-  const markdownText = `
-  ## Getting Started with the Markdown Editor
+  const [displayWikis, setDisplayWikis] = useState([]);
+  const [popularWikis, setPopularWikis] = useState([]);
+  const [uniqueCreators, setUniqueCreators] = useState<any>([]);
+
+  const markdownText = `## Getting Started with the Markdown Editor
   1. Add markdown text for what you want to teach the user
   2. Add code snippets in Python, Java, or C++!
   3. Go to the Create page to start creating your own!
   `;
 
-  const filteredMaterials = learningMaterials.filter((material) =>
-    material.title.toLowerCase().startsWith(searchQuery.toLowerCase())
-  );
+  function getFirstHeading(markdownText: string): string | null {
+    let firstHeading: string | null = null;
+    const renderer = new marked.Renderer();
+    renderer.heading = function (text, level) {
+      if (firstHeading === null) {
+        firstHeading = text;
+        return "";
+      }
+      return "";
+    };
+    marked(markdownText, { renderer });
+    return firstHeading;
+  }
 
-  const filteredPopularWikis = popularWikis.filter((wiki) => {
-    return wiki.title.toLowerCase().startsWith(searchQuery.toLowerCase());
-  });
+  function filterDisplayWikis(wikis: any) {
+    return wikis.map((wiki: any) => {
+      const firstMarkdown = wiki.content.find(
+        (content: any) => content.type === "markdown"
+      );
+      const description = firstMarkdown
+        ? getFirstHeading(firstMarkdown.data)
+        : "No description available";
+      return {
+        id: wiki._id,
+        title: wiki.title,
+        owner: wiki.owner,
+        description: description,
+      };
+    });
+  }
+
+  const shuffleArray = (array: []) => {
+    let currentIndex = array.length,
+      randomIndex;
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+    return array;
+  };
+
+  useEffect(() => {
+    if (wikis) {
+      setDisplayWikis(
+        filterDisplayWikis(wikis).filter((wiki: any) =>
+          wiki.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+        )
+      );
+    }
+  }, [wikis, searchQuery, filterDisplayWikis]);
+
+  useEffect(() => {
+    if (wikis) {
+      setPopularWikis(shuffleArray(filterDisplayWikis([...wikis])));
+
+      const creatorsWikiCount: Creator = {};
+      wikis.forEach((wiki: any) => {
+        const creatorName = wiki.owner;
+        if (creatorsWikiCount[creatorName]) {
+          creatorsWikiCount[creatorName].wikisCount += 1;
+        } else {
+          creatorsWikiCount[creatorName] = { name: creatorName, wikisCount: 1 };
+        }
+      });
+      const creatorsArray = Object.values(creatorsWikiCount);
+      setUniqueCreators(creatorsArray);
+    }
+  }, [wikis]);
+
+  if (isLoading) {
+    return <WikiLoadingPlaceholder />;
+  }
 
   return (
     <div className="bg-gray-50">
@@ -121,9 +116,11 @@ const NewHomePage = () => {
           />
           <div className="overflow-y-auto max-h-[425px]">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {filteredMaterials.map((material) => (
-                <WikiCard key={material.id} {...material} />
-              ))}
+              {displayWikis && displayWikis.length > 0
+                ? displayWikis.map((wiki: any) => (
+                    <WikiCard key={wiki.id} {...wiki} />
+                  ))
+                : null}
             </div>
           </div>
           <div className="text-xl font-bold mr-8 flex items-end mt-6">
@@ -141,7 +138,7 @@ const NewHomePage = () => {
           </div>
           <div className="overflow-y-auto max-h-[210px]">
             <div className="flex-wrap justify-center grid grid-cols-2 md:grid-cols-4 gap-6 justify-center items-start mb-12">
-              {filteredMaterials.map((wiki) => (
+              {popularWikis.map((wiki: any) => (
                 <WikiCard key={wiki.id} {...wiki} />
               ))}
             </div>
@@ -151,8 +148,8 @@ const NewHomePage = () => {
           </div>
           <div className="overflow-y-auto max-h-[210px] mb-24">
             <div className="flex-wrap justify-center grid grid-cols-2 md:grid-cols-4 gap-6 justify-center items-start">
-              {creators.map((creator) => (
-                <CreatorCard key={creator.id} {...creator} />
+              {uniqueCreators.map((creator: any, index: number) => (
+                <CreatorCard key={index} {...creator} />
               ))}
             </div>
           </div>
