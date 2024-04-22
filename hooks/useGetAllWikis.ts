@@ -13,7 +13,6 @@ export const useGetAllWikis = () => {
           throw new Error("Failed to fetch learning materials");
         }
         const data = await response.json();
-        console.log(data);
         setWikis(data);
       } catch (err) {
         setError(err as Error);

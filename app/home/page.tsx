@@ -76,7 +76,7 @@ const NewHomePage = () => {
         )
       );
     }
-  }, [wikis, searchQuery, filterDisplayWikis]);
+  }, [wikis, searchQuery]);
 
   useEffect(() => {
     if (wikis) {
