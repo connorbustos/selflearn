@@ -5,7 +5,8 @@ import { Button } from "./ui/button";
 import { useWikiDataStore } from "@/store/wikiData.store";
 import { WikiContent } from "@/app/types/Wiki";
 import { Table, Trash2 } from "lucide-react";
-import TableOfContents from "./TableOfContents";
+import { Input } from "./ui/input";
+import { useLLM } from "@/hooks/useLLM";
 
 interface MarkdownEditorProps {
   markdownId?: string;
@@ -24,8 +25,10 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 }) => {
   const [markdownText, setMarkdownText] = useState(initialMarkdownText);
   const [isEditing, setIsEditing] = useState(isEditingProp);
+  const [prompt, setPrompt] = useState("");
 
   const { content, setContent } = useWikiDataStore();
+  const { postPrompt, loading } = useLLM();
 
   const handleTextChange = (event: any) => {
     setMarkdownText(event.target.value);
@@ -56,6 +59,22 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   useEffect(() => {
     handleSave();
   }, [markdownText]);
+
+  const handlePromptChange = (event: any) => {
+    setPrompt(event.target.value);
+  };
+
+  const handleSendPrompt = async () => {
+    const response = await postPrompt(prompt);
+    if (response.result) {
+      const display = response.result.output.join("");
+      setMarkdownText(markdownText + display);
+    } else {
+      setMarkdownText(
+        markdownText + " No result received. Check logs or try again."
+      );
+    }
+  };
 
   return (
     <div className="flex justify-center items-center w-full">
@@ -89,13 +108,32 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
           </div>
         )}
         {isEditing ? (
-          <Button
-            type="button"
-            className="w-fit"
-            onClick={() => setIsEditing(false)}
-          >
-            View Markdown
-          </Button>
+          <>
+            <Button
+              type="button"
+              className="w-fit"
+              onClick={() => setIsEditing(false)}
+            >
+              View Markdown
+            </Button>
+            {process.env.NODE_ENV === "development" ? (
+              <div className="flex items-center space-x-2">
+                <Input
+                  placeholder="Ask SelfLearnAI!"
+                  value={prompt}
+                  onChange={handlePromptChange}
+                  disabled={loading}
+                />
+                <Button
+                  type="button"
+                  disabled={loading}
+                  onClick={handleSendPrompt}
+                >
+                  Send
+                </Button>
+              </div>
+            ) : null}
+          </>
         ) : null}
         <div className={`w-10 ${onDelete === undefined ? "hidden" : "flex"}`}>
           <Button onClick={onDelete}>

@@ -6,7 +6,10 @@ export async function DELETE(request: Request) {
   const client = await clientPromise;
   const db = client.db();
   const { id, isDraft } = await request.json();
-  const collectionName = isDraft ? "WikiDrafts" : "AllWikis";
+  let collectionName = isDraft ? "WikiDrafts" : "AllWikis";
+  if (process.env.NODE_ENV === "production") {
+    collectionName += "Prod";
+  }
   const objectId = new ObjectId(id);
   const result = await db
     .collection(collectionName)

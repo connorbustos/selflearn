@@ -32,8 +32,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentPath }) => {
           <Link href="/create_new_wiki">
             <div className="hover:text-gray-300">Create</div>
           </Link>
-          <Link href="/view_all_wikis">
-            <div className="hover:text-gray-300">View All Wikis</div>
+          <Link href="/home">
+            <div className="hover:text-gray-300">Home</div>
           </Link>
         </ul>
       </div>

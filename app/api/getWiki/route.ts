@@ -13,9 +13,10 @@ export async function GET(request: NextRequest) {
     if (!wikiId) {
       throw new Error("Wiki ID is required");
     }
-
+    const collectionName =
+      process.env.NODE_ENV === "production" ? "AllWikisProd" : "AllWikis";
     const result = await db
-      .collection("AllWikis")
+      .collection(collectionName)
       .findOne({ _id: new ObjectId(wikiId) });
     if (!result) {
       throw new Error("Wiki not found");

@@ -8,10 +8,12 @@ export async function POST(request: Request) {
   const db = client.db();
   const wikiData: WikiData = await request.json();
   const isDraft: boolean = wikiData.isDraft || false;
-  const collectionName = isDraft ? "WikiDrafts" : "AllWikis";
   const objectId = new ObjectId(wikiData.id);
   delete wikiData.id;
-
+  let collectionName = isDraft ? "WikiDrafts" : "AllWikis";
+  if (process.env.NODE_ENV === "production") {
+    collectionName += "Prod";
+  }
   const result = await db
     .collection(collectionName)
     .replaceOne({ _id: objectId }, wikiData, { upsert: true });
