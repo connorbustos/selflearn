@@ -25,7 +25,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPath }) => {
   return (
     <nav className="text-black py-3 px-6 flex justify-between border-b border-gray-300">
       <div className="flex items-center">
-        <Link href="/search">
+        <Link href="/home">
           <div className="text-xl font-bold mr-8 scale-125">SelfLearn</div>
         </Link>
         <ul className="flex space-x-4 items-end">

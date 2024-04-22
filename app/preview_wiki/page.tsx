@@ -5,17 +5,20 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Spinner } from "@chakra-ui/react";
 import { WikiData } from "../types/Wiki";
 import { useWikiDataStore } from "@/store/wikiData.store";
+import { useSession } from "next-auth/react";
 
 const PreviewWiki = () => {
-  const { content, title, owner } = useWikiDataStore();
-
   const [wikiData, setWikiData] = useState<WikiData>();
+  const { data: session } = useSession();
 
   useEffect(() => {
+    const title = localStorage.getItem("title");
+    const content = JSON.parse(localStorage.getItem("content") ?? "");
+
     const wiki: WikiData = {
-      title: title,
-      content: content,
-      owner: owner,
+      title: title ?? "",
+      content: content ?? "",
+      owner: session?.user?.name ?? "",
     };
 
     setWikiData(wiki);

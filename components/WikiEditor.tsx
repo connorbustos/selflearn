@@ -19,14 +19,21 @@ interface WikiEditorProps {
   setFieldValue?: FormikHelpers<{
     content: Array<WikiContent>;
   }>["setFieldValue"];
+  onPreviewWiki?: () => void;
+  isCreatingWiki?: boolean;
 }
 
-const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
+const WikiEditor: React.FC<WikiEditorProps> = ({
+  wiki,
+  isCreatingWiki,
+  setFieldValue,
+  onPreviewWiki,
+}) => {
   const [components, setComponents] = useState<Array<WikiContent>>(
     wiki?.content || []
   );
 
-  const { setContent, setTitle } = useWikiDataStore();
+  const { title, setContent, setTitle } = useWikiDataStore();
   const [history, setHistory] = useState<Array<Array<WikiContent>>>([]);
 
   const { toast } = useToast();
@@ -90,8 +97,13 @@ const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
   };
 
   const handlePreviewState = () => {
-    setContent(components);
-    setTitle(wiki?.title ?? "");
+    if (isCreatingWiki && onPreviewWiki) {
+      onPreviewWiki();
+      localStorage.setItem("content", JSON.stringify(components));
+    } else {
+      setContent(components);
+      setTitle(wiki?.title ?? "");
+    }
   };
 
   const handleOnDragEnd = (result: any) => {
@@ -118,7 +130,11 @@ const WikiEditor: React.FC<WikiEditorProps> = ({ wiki, setFieldValue }) => {
         <Button type="button" onClick={undoLastChange}>
           Undo
         </Button>
-        <Link onClick={handlePreviewState} href={"/preview_wiki"}>
+        <Link
+          onClick={handlePreviewState}
+          href={"/preview_wiki"}
+          target={"_blank"}
+        >
           <Button type="button">Preview Wiki</Button>
         </Link>
       </div>

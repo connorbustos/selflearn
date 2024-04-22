@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
+import React, { Ref, useEffect, useRef, useState } from "react";
+import { Formik, Form, Field, FormikProps } from "formik";
 import WikiEditor from "@/components/WikiEditor";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
@@ -14,7 +14,9 @@ import { redirect } from "next/navigation";
 const CreateWiki: React.FC = () => {
   const { toast } = useToast();
   const { data: session } = useSession();
-  const { title, content, setContent, setTitle } = useWikiDataStore();
+  const { content, setContent } = useWikiDataStore();
+  const ref: Ref<FormikProps<{ title: string; content: never[] }>> =
+    useRef(null);
 
   const [isDraft, setIsDraft] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -71,15 +73,17 @@ const CreateWiki: React.FC = () => {
     setIsDraft(!isDraft);
   };
 
-  const handleSaveChanges = (values: any) => {
-    console.log(title);
-    console.log(content);
+  const handlePreviewWiki = () => {
+    if (ref.current) {
+      localStorage.setItem("title", ref.current.values.title);
+    }
   };
 
   return (
     <div className="w-full max-w-6xl mx-auto my-10">
       <h1 className="text-center text-2xl font-semibold mb-4">Create Wiki</h1>{" "}
       <Formik
+        innerRef={ref}
         initialValues={{ title: "", content: [] }}
         onSubmit={handleSubmit}
       >
@@ -100,7 +104,10 @@ const CreateWiki: React.FC = () => {
                 placeholder="Enter Wiki Title"
                 disabled={isDisabled}
               />
-              <WikiEditor />
+              <WikiEditor
+                onPreviewWiki={handlePreviewWiki}
+                isCreatingWiki={true}
+              />
             </div>
             <Toaster />
             <div className="flex items-center mb-2">
@@ -115,7 +122,6 @@ const CreateWiki: React.FC = () => {
               <Button type={"submit"} disabled={isDisabled}>
                 Create Wiki
               </Button>
-              <Button onClick={handleSaveChanges}>Save Changes</Button>
             </div>
           </Form>
         )}
