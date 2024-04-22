@@ -14,6 +14,7 @@ interface MarkdownEditorProps {
   isEditingProp: boolean;
   isOnViewWiki: boolean;
   onDelete?: () => void;
+  isViewer?: boolean;
 }
 
 const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
@@ -22,6 +23,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   isEditingProp,
   isOnViewWiki = true,
   onDelete,
+  isViewer,
 }) => {
   const [markdownText, setMarkdownText] = useState(initialMarkdownText);
   const [isEditing, setIsEditing] = useState(isEditingProp);
@@ -57,7 +59,9 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   };
 
   useEffect(() => {
-    handleSave();
+    if (!isViewer) {
+      handleSave();
+    }
   }, [markdownText]);
 
   const handlePromptChange = (event: any) => {
