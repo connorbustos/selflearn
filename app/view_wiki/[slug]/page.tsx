@@ -37,7 +37,6 @@ export async function generateStaticParams() {
 const ViewWiki = async ({ params }: { params: { slug: string } }) => {
   const response = await fetch(`${api_url}/api/getWiki?wikiId=${params.slug}`);
   const wikiData = await response.json();
-  console.log("in view wiki", wikiData);
   return (
     <ChakraProvider>
       <div className="w-full py-4 px-4 content-center">
