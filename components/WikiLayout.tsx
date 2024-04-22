@@ -31,7 +31,7 @@ const WikiLayout = ({ wikiData }: WikiLayoutProps) => {
             if (item.type === "code") {
               return (
                 <div key={index} className="py-3 px-4 w-full shadow-md">
-                  <CodeEditor initialCode={item.data ?? ""} />
+                  <CodeEditor initialCode={item.data ?? ""} isViewer={true} />
                 </div>
               );
             } else {
@@ -41,6 +41,7 @@ const WikiLayout = ({ wikiData }: WikiLayoutProps) => {
                   key={index}
                   initialMarkdownText={item.data ?? ""}
                   isEditingProp={false}
+                  isViewer={true}
                 />
               );
             }

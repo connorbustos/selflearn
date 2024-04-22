@@ -23,6 +23,7 @@ interface CodeEditorProps {
   initialCode: string;
   isOwner?: boolean;
   onDelete?: () => void;
+  isViewer?: boolean;
 }
 
 const languages = [
@@ -38,6 +39,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   initialCode,
   isOwner = true,
   onDelete,
+  isViewer,
 }) => {
   const [code, setCode] = useState(initialCode);
   const [editable, setEditable] = useState(true);
@@ -88,7 +90,9 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   };
 
   useEffect(() => {
-    handleSave();
+    if (!isViewer) {
+      handleSave();
+    }
   }, [code]);
 
   return (
