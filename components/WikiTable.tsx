@@ -101,11 +101,11 @@ const WikiTable = ({ owner }: WikiTableProps) => {
                       {wiki.dateModified ?? "04/04/2024"}
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button className="min-w-[96px] max-w-[96px]">
-                        <Link href={`/edit_wiki/${wiki.id}-isDraft`}>
+                      <Link href={`/edit_wiki/${wiki.id}-isDraft`}>
+                        <Button className="min-w-[96px] max-w-[96px]">
                           Edit Wiki
-                        </Link>
-                      </Button>
+                        </Button>
+                      </Link>
                     </TableCell>
                   </TableRow>
                 );
@@ -122,9 +122,11 @@ const WikiTable = ({ owner }: WikiTableProps) => {
                       {wiki.dateModified ?? "04/04/2024"}
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button className="min-w-[96px] max-w-[96px]">
-                        <Link href={`/edit_wiki/${wiki.id}`}>Edit Wiki</Link>
-                      </Button>
+                      <Link href={`/edit_wiki/${wiki.id}`}>
+                        <Button className="min-w-[96px] max-w-[96px]">
+                          Edit Wiki
+                        </Button>
+                      </Link>
                     </TableCell>
                   </TableRow>
                 );
