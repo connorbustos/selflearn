@@ -15,6 +15,7 @@ export default function RootLayout({
   return (
     <SessionWrapper>
       <html lang="en">
+        <link rel="stylesheet" href="https://use.typekit.net/urj3apl.css" />
         <body>
           <Navbar currentPath={pathName} />
           {children}

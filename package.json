@@ -38,6 +38,7 @@
     "react-dom": "^18",
     "react-markdown": "^9.0.1",
     "react-resizable-panels": "^2.0.16",
+    "react-type-animation": "^3.2.0",
     "remark-toc": "^9.0.0",
     "replicate": "^0.29.1",
     "tailwind-merge": "^2.2.1",
