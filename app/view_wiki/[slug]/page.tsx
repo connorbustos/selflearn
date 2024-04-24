@@ -40,7 +40,7 @@ const ViewWiki = async ({ params }: { params: { slug: string } }) => {
   return (
     <ChakraProvider>
       <div className="w-full py-4 px-4 content-center">
-        {wikiData ? <WikiLayout wikiData={wikiData} /> : <Spinner />}
+        {wikiData ? <WikiLayout wikiData={wikiData} /> : null}
       </div>
     </ChakraProvider>
   );
