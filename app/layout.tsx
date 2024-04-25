@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import { usePathname } from "next/navigation";
 import SessionWrapper from "../components/SessionWrapper";
 import "./globals.css";
+import Footer from "@/components/Footer";
 
 export default function RootLayout({
   children,
@@ -18,6 +19,7 @@ export default function RootLayout({
         <body>
           <Navbar currentPath={pathName} />
           {children}
+          <Footer/>
         </body>
       </html>
     </SessionWrapper>

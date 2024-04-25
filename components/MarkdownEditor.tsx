@@ -7,6 +7,7 @@ import { WikiContent } from "@/app/types/Wiki";
 import { Table, Trash2 } from "lucide-react";
 import { Input } from "./ui/input";
 import { useLLM } from "@/hooks/useLLM";
+import CodeBlock from "./CodeBlock";
 
 interface MarkdownEditorProps {
   markdownId?: string;
@@ -86,7 +87,26 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
         {!isEditing ? (
           <div className="flex flex-col items-center justify-center">
             <div className="prose lg:prose-base p-4 w-full md:max-w-4xl">
-              <ReactMarkdown>{markdownText}</ReactMarkdown>
+              <ReactMarkdown
+                components={{
+                  code({ node, className, children, ...props }) {
+                    const match = /language-(\w+)/.exec(className || "");
+                    return match ? (
+                      <CodeBlock
+                        language={match[1]}
+                        value={String(children).replace(/\n$/, "")}
+                        {...props}
+                      />
+                    ) : (
+                      <code className={className} {...props}>
+                        {children}
+                      </code>
+                    );
+                  },
+                }}
+              >
+                {markdownText}
+              </ReactMarkdown>
             </div>
             <Button
               type="button"
