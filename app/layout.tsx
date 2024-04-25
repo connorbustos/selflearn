@@ -19,7 +19,7 @@ export default function RootLayout({
         <body>
           <Navbar currentPath={pathName} />
           {children}
-          <Footer></Footer>
+          <Footer/>
         </body>
       </html>
     </SessionWrapper>
