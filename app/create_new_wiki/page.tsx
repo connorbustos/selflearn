@@ -51,10 +51,7 @@ const CreateWiki: React.FC = () => {
         body: raw,
       };
 
-      const response = await fetch(
-        "http://localhost:3000/api/putWiki",
-        requestOptions
-      );
+      const response = await fetch("/api/putWiki", requestOptions);
       const result = await response.text();
       console.log(result);
     } catch (error) {

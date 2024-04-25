@@ -40,12 +40,11 @@ const EditWiki = ({ params }: { params: { slug: string } }) => {
   return (
     <ChakraProvider>
       <div className="w-full py-4 px-4 content-center">
-        {wikiData ? (
-          <EditWikiLayout wiki={wikiData} />
-        ) : null
-        // <div className="absolute inset-0 flex justify-center items-center pt-80">
-        //   null
-        // </div>
+        {
+          wikiData ? <EditWikiLayout wiki={wikiData} /> : null
+          // <div className="absolute inset-0 flex justify-center items-center pt-80">
+          //   null
+          // </div>
         }
       </div>
     </ChakraProvider>

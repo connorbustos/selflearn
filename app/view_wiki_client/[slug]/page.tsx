@@ -32,10 +32,7 @@ const ViewWiki = ({ params }: { params: { slug: string } }) => {
   return (
     <ChakraProvider>
       <div className="w-full py-4 px-4 content-center">
-        {wikiData ? (
-          <WikiLayout wikiData={wikiData} />
-        ) : null
-        }
+        {wikiData ? <WikiLayout wikiData={wikiData} /> : null}
       </div>
     </ChakraProvider>
   );
