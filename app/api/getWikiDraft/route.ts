@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
       throw new Error("Wiki ID is required");
     }
     const collectionName =
-      process.env.NODE_ENV === "production" ? "WikiDraftsProd" : "WikiDrafts";
+      process.env.NODE_ENV === "development" ? "WikiDrafts" : "WikiDraftsProd";
 
     const result = await db
       .collection(collectionName)
