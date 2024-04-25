@@ -34,11 +34,8 @@ const ViewWiki = ({ params }: { params: { slug: string } }) => {
       <div className="w-full py-4 px-4 content-center">
         {wikiData ? (
           <WikiLayout wikiData={wikiData} />
-        ) : (
-          <div className="absolute inset-0 flex justify-center items-center pt-80">
-            <Spinner size="xl" />
-          </div>
-        )}
+        ) : null
+        }
       </div>
     </ChakraProvider>
   );
