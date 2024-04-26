@@ -8,7 +8,7 @@ export const useGetAllWikis = () => {
   useEffect(() => {
     const fetchLearningMaterials = async () => {
       try {
-        const response = await fetch("/api/getAllWikis", {cache: "no-store"});
+        const response = await fetch("/api/getAllWikis", { cache: "no-cache" });
         if (!response.ok) {
           throw new Error("Failed to fetch learning materials");
         }
