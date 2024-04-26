@@ -10,6 +10,8 @@ import WikiLoadingPlaceholder from "@/components/WikiLoadingPlaceholder";
 import { marked } from "marked";
 import { WikiData } from "../types/Wiki";
 
+export const revalidate = 0;
+
 const NewHomePage = () => {
   const { wikis, isLoading } = useGetAllWikis();
   const [searchQuery, setSearchQuery] = useState("");
