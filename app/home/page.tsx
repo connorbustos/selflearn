@@ -10,7 +10,7 @@ import WikiLoadingPlaceholder from "@/components/WikiLoadingPlaceholder";
 import { marked } from "marked";
 import { WikiData } from "../types/Wiki";
 
-export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
 const NewHomePage = () => {
   const { wikis, isLoading } = useGetAllWikis();
