@@ -97,12 +97,9 @@ const WikiEditor: React.FC<WikiEditorProps> = ({
   };
 
   const handlePreviewState = () => {
-    if (isCreatingWiki && onPreviewWiki) {
+    if (onPreviewWiki) {
       onPreviewWiki();
       localStorage.setItem("content", JSON.stringify(components));
-    } else {
-      setContent(components);
-      setTitle(wiki?.title ?? "");
     }
   };
 

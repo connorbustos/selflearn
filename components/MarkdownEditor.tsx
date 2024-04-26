@@ -108,6 +108,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                 {markdownText}
               </ReactMarkdown>
             </div>
+
             <Button
               type="button"
               className={`w-fit ${isOnViewWiki ? "hidden" : "inherit"}`}
