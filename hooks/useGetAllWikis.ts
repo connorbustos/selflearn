@@ -8,7 +8,12 @@ export const useGetAllWikis = () => {
   useEffect(() => {
     const fetchLearningMaterials = async () => {
       try {
-        const response = await fetch("/api/getAllWikis");
+        // Append a timestamp as a query parameter to ensure uniqueness of the request
+        const timestamp = new Date().getTime();
+        const response = await fetch(
+          `/api/getAllWikis?timestamp=${timestamp}`,
+          { cache: "reload" }
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch learning materials");
         }

@@ -9,6 +9,8 @@ import WikiLoadingPlaceholder from "@/components/WikiLoadingPlaceholder";
 import { marked } from "marked";
 import { motion } from "framer-motion";
 
+export const dynamic = "force-dynamic";
+
 const NewHomePage = () => {
   const { wikis, isLoading } = useGetAllWikis();
   const [searchQuery, setSearchQuery] = useState("");

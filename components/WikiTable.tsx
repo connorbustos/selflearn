@@ -19,7 +19,10 @@ interface WikiTableProps {
 }
 
 const getUserCreatedWikis = async (owner: string) => {
-  const response = await fetch("http://localhost:3000/api/getAllWikis");
+  const timestamp = new Date().getTime();
+  const response = await fetch(`/api/getAllWikis?timestamp=${timestamp}`, {
+    cache: "reload",
+  });
   const data = await response.json();
 
   const wikisWithMappedIds = data.map((wiki: any) => {
@@ -35,7 +38,10 @@ const getUserCreatedWikis = async (owner: string) => {
 };
 
 const getUserWikiDrafts = async (owner: string) => {
-  const response = await fetch("http://localhost:3000/api/getAllWikiDrafts");
+  const timestamp = new Date().getTime();
+  const response = await fetch(`/api/getAllWikiDrafts?timestamp=${timestamp}`, {
+    cache: "reload",
+  });
   const data = await response.json();
   const wikisWithMappedIds = data.map((wiki: any) => {
     return {

@@ -64,14 +64,11 @@ const EditWikiLayout: React.FC<EditWikiLayoutProps> = ({ wiki }) => {
       };
 
       const deleteResponse = await fetch(
-        "http://localhost:3000/api/deleteWiki",
+        "/api/deleteWiki",
         deleteRequestOptions
       );
 
-      const putResponse = await fetch(
-        "http://localhost:3000/api/putWiki",
-        putRequestOptions
-      );
+      const putResponse = await fetch("/api/putWiki", putRequestOptions);
       const deleteResult = await deleteResponse.text();
       console.log(deleteResult);
       const putResult = await putResponse.text();

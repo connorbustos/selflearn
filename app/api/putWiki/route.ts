@@ -14,12 +14,15 @@ export async function POST(request: Request) {
   if (process.env.NODE_ENV === "production") {
     collectionName += "Prod";
   }
-  const result = await db
-    .collection(collectionName)
-    .replaceOne({ _id: objectId }, wikiData, { upsert: true });
-
-  return NextResponse.json({
-    message: `Wiki ${isDraft ? "Draft" : ""} Saved Successfully`,
-    result: result,
-  });
+  try {
+    const result = await db
+      .collection(collectionName)
+      .replaceOne({ _id: objectId }, wikiData, { upsert: true });
+    return NextResponse.json({
+      message: `Wiki ${isDraft ? "Draft" : ""} Saved Successfully`,
+      result: result,
+    });
+  } catch (error) {
+    return NextResponse.json({ message: error, collectionName });
+  }
 }
