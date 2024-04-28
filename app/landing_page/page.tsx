@@ -1,9 +1,8 @@
 "use client";
 import { TypeAnimation } from "react-type-animation";
-import { Variants, motion, useAnimation, useInView } from "framer-motion";
-import Image from "next/image";
+import { Variants, motion } from "framer-motion";
 import { ChevronsDown } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { Img } from "@chakra-ui/react";
 
 const bannerContent = [
   {
@@ -32,27 +31,10 @@ const bannerContent = [
   },
 ];
 
-const cardVariants: Variants = {
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
-  hidden: { opacity: 0, scale: 0 },
-};
-
 export default function LandingPage() {
-  const control = useAnimation();
-  const ref = useRef(null);
-  const isInView = useInView(ref);
-
-  useEffect(() => {
-    if (isInView) {
-      control.start("visible");
-    } else {
-      control.start("hidden");
-    }
-  }, [control, isInView]);
   return (
     <div className="w-screen h-screen font-Proxima-Nova">
       <link rel="stylesheet" href="https://use.typekit.net/urj3apl.css" />
-      {/* main welcome section */}
       <div className="w-full min-h-screen flex flex-col justify-center items-center gap-y-2 relative">
         <motion.p
           className="text-8xl font-normal"
@@ -94,27 +76,52 @@ export default function LandingPage() {
       </div>
 
       {/* banner */}
-      <div className="w-full flex flex-col gap-y-14" ref={ref}>
+      <div className="w-full flex flex-col gap-y-14">
         {bannerContent.map((elem, idx) => {
+          const cardVariants: Variants = {
+            offscreen: {
+              x: idx % 2 === 0 ? -1000 : 1000, // For even elements, animate from right (+300), for odd animate from left (-300)
+            },
+            onscreen: {
+              x: 0,
+              transition: {
+                type: "spring",
+                bounce: 0.1,
+                duration: 0.7,
+              },
+            },
+          };
+
           return (
-            <div
+            <motion.div
+              initial={"offscreen"}
+              whileInView={"onscreen"}
+              viewport={{ amount: 1, once: true }}
               key={idx}
-              className={`w-4/5 mx-auto gap-x-6 flex flex-${
+              className={`w-4/5 mx-auto gap-x-20 flex flex-${
                 idx % 2 === 0 ? "row-reverse" : "row"
-              }`}
+              } items-center`}
             >
-              <motion.div variants={cardVariants} className="w-1/2">
-                <div className="font-black text-4xl">{elem.heading}</div>
-                <div className="font-regular text-2xl">{elem.subheading}</div>
+              <motion.div className="relative w-1/2">
+                <div className="absolute -top-[70px] -left-[90px] w-[200px] h-[100px] -z-[20]">
+                  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fill="#F2F4F8"
+                      d="M56.9,-46.8C67.8,-31.7,66.6,-8.4,59.2,9.3C51.8,27.1,38.3,39.2,25.5,40.6C12.8,42,0.8,32.6,-16,26.9C-32.8,21.2,-54.4,19.3,-62.5,7.5C-70.5,-4.3,-65.1,-25.9,-52.4,-41.4C-39.7,-56.9,-19.9,-66.3,1.6,-67.6C23,-68.8,46,-61.9,56.9,-46.8Z"
+                      transform="translate(100 100)"
+                    />
+                  </svg>
+                </div>
+                <div className={`font-black text-4xl`}>{elem.heading}</div>
+                <div className={`font-regular text-2xl `}>
+                  {elem.subheading}
+                </div>
               </motion.div>
-              <Image
-                className="w-1/2"
-                width={100}
-                height={100}
-                src={`/${elem.imgSrc}`}
-                alt="content"
-              />
-            </div>
+
+              <motion.div className="w-1/2" variants={cardVariants}>
+                <Img src={`/${elem.imgSrc}`} alt="content" />
+              </motion.div>
+            </motion.div>
           );
         })}
       </div>

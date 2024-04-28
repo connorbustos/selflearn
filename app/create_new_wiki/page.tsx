@@ -1,5 +1,5 @@
 "use client";
-import React, { Ref, useEffect, useRef, useState } from "react";
+import React, { Ref, useRef, useState } from "react";
 import { Formik, Form, Field, FormikProps } from "formik";
 import WikiEditor from "@/components/WikiEditor";
 import { Toaster } from "@/components/ui/toaster";
@@ -77,7 +77,7 @@ const CreateWiki: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto my-10">
+    <div className="w-full h-screen max-w-6xl mx-auto my-10">
       <h1 className="text-center text-2xl font-semibold mb-4">Create Wiki</h1>{" "}
       <Formik
         innerRef={ref}

@@ -25,11 +25,12 @@ const Navbar: React.FC<NavbarProps> = ({ currentPath }) => {
   return (
     <nav className="font-Proxima-Nova py-3 px-6 flex justify-between border-b border-gray-300">
       <div className="flex items-center">
-        <Link href="/landing_page">
-          <div className="flex items-center gap-x-1 text-xl font-bold mr-8 scale-125">
-            <BrainCircuit />
-            SelfLearn.
-          </div>
+        <Link
+          className="flex items-center gap-x-1 text-xl font-bold scale-125"
+          href="/landing_page"
+        >
+          <BrainCircuit />
+          SelfLearn.
         </Link>
       </div>
 
@@ -47,7 +48,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPath }) => {
       {session ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="flex gap-x-2 font-bold">
+            <Button variant="outline" className="flex font-bold">
               {session.user?.name}
             </Button>
           </DropdownMenuTrigger>
