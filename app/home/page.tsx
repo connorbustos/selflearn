@@ -5,10 +5,9 @@ import WikiCard from "@/components/WikiCard";
 import MarkdownEditor from "@/components/MarkdownEditor";
 import CreatorCard from "@/components/CreatorCard";
 import { useGetAllWikis } from "@/hooks/useGetAllWikis";
-import { ChakraProvider, Spinner } from "@chakra-ui/react";
 import WikiLoadingPlaceholder from "@/components/WikiLoadingPlaceholder";
 import { marked } from "marked";
-import { WikiData } from "../types/Wiki";
+import { motion } from "framer-motion";
 
 export const dynamic = "force-dynamic";
 
@@ -106,25 +105,33 @@ const NewHomePage = () => {
     <div className="bg-gray-50">
       <div className="pt-4">
         <div className="mx-auto max-w-[75%] px-4 md:px-6 lg:px-12 grid gap-2">
-          <div className="text-xl font-bold mr-8 flex items-end">
-            Search Wikis
-          </div>
-          <Input
-            type="text"
-            placeholder="Enter Wiki Name..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="mb-2"
-          />
-          <div className="overflow-y-auto max-h-[425px]">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {displayWikis && displayWikis.length > 0
-                ? displayWikis.map((wiki: any) => (
-                    <WikiCard key={wiki.id} {...wiki} />
-                  ))
-                : null}
+          <motion.div
+            className="text-8xl font-normal"
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -10, opacity: 0 }}
+            transition={{ duration: 1 }}
+          >
+            <div className="text-xl font-bold mr-8 flex items-end">
+              Search Wikis
             </div>
-          </div>
+            <Input
+              type="text"
+              placeholder="Enter Wiki Name..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="mb-2"
+            />
+            <div className="overflow-y-auto max-h-[425px]">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {displayWikis && displayWikis.length > 0
+                  ? displayWikis.map((wiki: any) => (
+                      <WikiCard key={wiki.id} {...wiki} />
+                    ))
+                  : null}
+              </div>
+            </div>
+          </motion.div>
           <div className="text-xl font-bold mr-8 flex items-end mt-6">
             Try it out!
           </div>

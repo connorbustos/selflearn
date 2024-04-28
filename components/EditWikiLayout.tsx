@@ -93,6 +93,10 @@ const EditWikiLayout: React.FC<EditWikiLayoutProps> = ({ wiki }) => {
     setIsDraft(!isDraft);
   };
 
+  const handlePreviewWiki = () => {
+    localStorage.setItem("title", wiki.title);
+  };
+
   return (
     <div className="w-full max-w-6xl mx-auto my-10">
       <h1 className="text-center text-2xl font-semibold mb-4">Edit Wiki</h1>{" "}
@@ -117,7 +121,11 @@ const EditWikiLayout: React.FC<EditWikiLayoutProps> = ({ wiki }) => {
                 placeholder={"Enter Wiki Title"}
                 disabled={isDisabled}
               />
-              <WikiEditor wiki={wiki} setFieldValue={setFieldValue} />
+              <WikiEditor
+                wiki={wiki}
+                setFieldValue={setFieldValue}
+                onPreviewWiki={handlePreviewWiki}
+              />
             </div>
             <Toaster />
             <div className="flex items-center mb-2">

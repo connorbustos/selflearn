@@ -1,7 +1,7 @@
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { CircleUser, LogOut } from "lucide-react";
+import { BrainCircuit, CircleUser, LogOut } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,11 +23,17 @@ const Navbar: React.FC<NavbarProps> = ({ currentPath }) => {
   }
 
   return (
-    <nav className="text-black py-3 px-6 flex justify-between border-b border-gray-300">
+    <nav className="font-Proxima-Nova py-3 px-6 flex justify-between border-b border-gray-300">
       <div className="flex items-center">
-        <Link href="/home">
-          <div className="text-xl font-bold mr-8 scale-125">SelfLearn</div>
+        <Link href="/landing_page">
+          <div className="flex items-center gap-x-1 text-xl font-bold mr-8 scale-125">
+            <BrainCircuit />
+            SelfLearn.
+          </div>
         </Link>
+      </div>
+
+      <div className="flex items-center font-bold">
         <ul className="flex space-x-4 items-end">
           <Link href="/create_new_wiki">
             <div className="hover:text-gray-300">Create</div>
@@ -41,21 +47,21 @@ const Navbar: React.FC<NavbarProps> = ({ currentPath }) => {
       {session ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="flex gap-x-2">
+            <Button variant="outline" className="flex gap-x-2 font-bold">
               {session.user?.name}
             </Button>
           </DropdownMenuTrigger>
 
           <DropdownMenuContent>
             <Link href={"/profile"}>
-              <DropdownMenuItem className="flex gap-x-2">
+              <DropdownMenuItem className="flex gap-x-2 font-bold">
                 <CircleUser />
                 Profile
               </DropdownMenuItem>
             </Link>
             <DropdownMenuItem
               onClick={() => signOut()}
-              className="flex gap-x-2"
+              className="flex gap-x-2 font-bold"
             >
               <LogOut />
               Log out

@@ -108,6 +108,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                 {markdownText}
               </ReactMarkdown>
             </div>
+
             <Button
               type="button"
               className={`w-fit ${isOnViewWiki ? "hidden" : "inherit"}`}
@@ -140,23 +141,21 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
             >
               View Markdown
             </Button>
-            {process.env.NODE_ENV === "development" ? (
-              <div className="flex items-center space-x-2">
-                <Input
-                  placeholder="Ask SelfLearnAI!"
-                  value={prompt}
-                  onChange={handlePromptChange}
-                  disabled={loading}
-                />
-                <Button
-                  type="button"
-                  disabled={loading}
-                  onClick={handleSendPrompt}
-                >
-                  Send
-                </Button>
-              </div>
-            ) : null}
+            <div className="flex items-center space-x-2">
+              <Input
+                placeholder="Ask SelfLearnAI!"
+                value={prompt}
+                onChange={handlePromptChange}
+                disabled={loading}
+              />
+              <Button
+                type="button"
+                disabled={loading}
+                onClick={handleSendPrompt}
+              >
+                Send
+              </Button>
+            </div>
           </>
         ) : null}
         <div className={`w-10 ${onDelete === undefined ? "hidden" : "flex"}`}>

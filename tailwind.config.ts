@@ -83,6 +83,9 @@ const config = {
         "6": "1.5rem",
         "8": "2.0rem",
       },
+      fontFamily: {
+        "Proxima-Nova": ["proxima-nova", "sans-serif"],
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
