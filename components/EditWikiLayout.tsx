@@ -11,6 +11,8 @@ import moment from "moment";
 import { WikiData } from "@/app/types/Wiki";
 
 import { useWikiDataStore } from "@/store/wikiData.store";
+import { SquarePen } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface EditWikiLayoutProps {
   wiki: WikiData;
@@ -99,51 +101,71 @@ const EditWikiLayout: React.FC<EditWikiLayoutProps> = ({ wiki }) => {
 
   return (
     <div className="w-full max-w-6xl mx-auto my-10">
-      <h1 className="text-center text-2xl font-semibold mb-4">Edit Wiki</h1>{" "}
-      <Formik
-        initialValues={{ title: wiki.title ?? "", content: wiki.content ?? [] }}
-        onSubmit={handleSubmit}
+      <div className="flex items-start justify-center w-full mx-auto gap-x-2">
+        <SquarePen
+          style={{
+            marginTop: "4px",
+          }}
+          size={64}
+        />
+        <p className="pt-2 pb-4 font-Proxima-Nova text-6xl font-black text-center">
+          Edit Wiki
+        </p>
+      </div>
+      <motion.div
+        initial={{ y: 10, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: -10, opacity: 0 }}
+        transition={{ duration: 1 }}
       >
-        {({ setFieldValue }) => (
-          <Form className="bg-white shadow-md rounded px-4 pt-4 pb-4 mb-2">
-            <div className="mb-2">
-              <label
-                htmlFor="title"
-                className="block text-gray-700 text-sm font-bold mb-2"
-              >
-                Wiki Title
-              </label>
-              <Field
-                id="title"
-                name="title"
-                type="text"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder={"Enter Wiki Title"}
-                disabled={isDisabled}
-              />
-              <WikiEditor
-                wiki={wiki}
-                setFieldValue={setFieldValue}
-                onPreviewWiki={handlePreviewWiki}
-              />
-            </div>
-            <Toaster />
-            <div className="flex items-center mb-2">
-              <Switch
-                checked={isDraft}
-                disabled={isDisabled}
-                onCheckedChange={handleIsDraftChange}
-              />
-              <span className="ml-2 align-middle">Save as Draft</span>
-            </div>
-            <div className="flex items-center justify-center">
-              <Button type={"submit"} disabled={isDisabled}>
-                Save Changes
-              </Button>
-            </div>
-          </Form>
-        )}
-      </Formik>
+        <Formik
+          initialValues={{
+            title: wiki.title ?? "",
+            content: wiki.content ?? [],
+          }}
+          onSubmit={handleSubmit}
+        >
+          {({ setFieldValue }) => (
+            <Form className="bg-white shadow-md rounded px-4 pt-4 pb-4 mb-2">
+              <div className="mb-2">
+                <label
+                  htmlFor="title"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Wiki Title
+                </label>
+                <Field
+                  id="title"
+                  name="title"
+                  type="text"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  placeholder={"Enter Wiki Title"}
+                  disabled={isDisabled}
+                />
+                <WikiEditor
+                  wiki={wiki}
+                  setFieldValue={setFieldValue}
+                  onPreviewWiki={handlePreviewWiki}
+                />
+              </div>
+              <Toaster />
+              <div className="flex items-center mb-2">
+                <Switch
+                  checked={isDraft}
+                  disabled={isDisabled}
+                  onCheckedChange={handleIsDraftChange}
+                />
+                <span className="ml-2 align-middle">Save as Draft</span>
+              </div>
+              <div className="flex items-center justify-center">
+                <Button type={"submit"} disabled={isDisabled}>
+                  Save Changes
+                </Button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </motion.div>
     </div>
   );
 };

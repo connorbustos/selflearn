@@ -4,6 +4,7 @@ import MarkdownEditor from "./MarkdownEditor";
 import CodeEditor from "./CodeEditor";
 import { WikiData } from "@/app/types/Wiki";
 import TableOfContents from "./TableOfContents";
+import { motion, useScroll, useSpring } from "framer-motion";
 
 interface WikiLayoutProps {
   wikiData: WikiData;
@@ -13,7 +14,13 @@ const WikiLayout = ({ wikiData }: WikiLayoutProps) => {
   const { title, content } = wikiData;
 
   return (
-    <div className="flex w-screen overflow-hidden lg:px-0">
+    <motion.div
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -10, opacity: 0 }}
+      transition={{ duration: 1 }}
+      className="flex w-screen overflow-hidden lg:px-0"
+    >
       {/* Left Spacer - 20% */}
       <div className="flex-1 hidden lg:flex lg:flex-col h-screen overflow-auto sticky top-0">
         {content?.map(
@@ -50,7 +57,7 @@ const WikiLayout = ({ wikiData }: WikiLayoutProps) => {
       </div>
       {/* Right Spacer - 20% */}
       <div className="flex-1 hidden lg:block"></div>
-    </div>
+    </motion.div>
   );
 };
 

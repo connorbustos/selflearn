@@ -10,6 +10,8 @@ import { useSession } from "next-auth/react";
 import { Switch } from "@/components/ui/switch";
 import moment from "moment";
 import { redirect } from "next/navigation";
+import { motion } from "framer-motion";
+import { SearchCode, SquarePen } from "lucide-react";
 
 const CreateWiki: React.FC = () => {
   const { toast } = useToast();
@@ -78,51 +80,68 @@ const CreateWiki: React.FC = () => {
 
   return (
     <div className="w-full h-screen max-w-6xl mx-auto my-10">
-      <h1 className="text-center text-2xl font-semibold mb-4">Create Wiki</h1>{" "}
-      <Formik
-        innerRef={ref}
-        initialValues={{ title: "", content: [] }}
-        onSubmit={handleSubmit}
+      <div className="flex items-start justify-center w-full mx-auto gap-x-2">
+        <SquarePen
+          style={{
+            marginTop: "4px",
+          }}
+          size={64}
+        />
+        <p className="pt-2 pb-4 font-Proxima-Nova text-6xl font-black text-center">
+          Create Wiki
+        </p>
+      </div>
+      <motion.div
+        initial={{ y: 10, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: -10, opacity: 0 }}
+        transition={{ duration: 1 }}
       >
-        {() => (
-          <Form className="bg-white shadow-md rounded px-4 pt-4 pb-4 mb-2">
-            <div className="mb-2">
-              <label
-                htmlFor="title"
-                className="block text-gray-700 text-sm font-bold mb-2"
-              >
-                Wiki Title
-              </label>
-              <Field
-                id="title"
-                name="title"
-                type="text"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Enter Wiki Title"
-                disabled={isDisabled}
-              />
-              <WikiEditor
-                onPreviewWiki={handlePreviewWiki}
-                isCreatingWiki={true}
-              />
-            </div>
-            <Toaster />
-            <div className="flex items-center mb-2">
-              <Switch
-                checked={isDraft}
-                disabled={isDisabled}
-                onCheckedChange={handleIsDraftChange}
-              />
-              <span className="ml-2 align-middle">Save as Draft</span>
-            </div>
-            <div className="flex gap-x-2 items-center justify-center">
-              <Button type={"submit"} disabled={isDisabled}>
-                Create Wiki
-              </Button>
-            </div>
-          </Form>
-        )}
-      </Formik>
+        <Formik
+          innerRef={ref}
+          initialValues={{ title: "", content: [] }}
+          onSubmit={handleSubmit}
+        >
+          {() => (
+            <Form className="font-Proxima-Nova bg-white shadow-md rounded px-4 pt-4 pb-4 mb-2">
+              <div className="mb-2">
+                <label
+                  htmlFor="title"
+                  className="block text-gray-700 text-xl font-bold mb-2"
+                >
+                  Wiki Title
+                </label>
+                <Field
+                  id="title"
+                  name="title"
+                  type="text"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  placeholder="Enter Wiki Title"
+                  disabled={isDisabled}
+                />
+                <WikiEditor
+                  onPreviewWiki={handlePreviewWiki}
+                  isCreatingWiki={true}
+                />
+              </div>
+              <Toaster />
+              <div className="flex items-center mb-2">
+                <Switch
+                  checked={isDraft}
+                  disabled={isDisabled}
+                  onCheckedChange={handleIsDraftChange}
+                />
+                <span className="ml-2 align-middle">Save as Draft</span>
+              </div>
+              <div className="flex gap-x-2 items-center justify-center">
+                <Button type={"submit"} disabled={isDisabled}>
+                  Create Wiki
+                </Button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </motion.div>
     </div>
   );
 };
