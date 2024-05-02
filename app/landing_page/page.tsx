@@ -1,8 +1,9 @@
 "use client";
 import { TypeAnimation } from "react-type-animation";
 import { Variants, motion } from "framer-motion";
-import { ChevronsDown } from "lucide-react";
+import { ChevronsDown, Github, Linkedin } from "lucide-react";
 import { Img } from "@chakra-ui/react";
+import Link from "next/link";
 
 const bannerContent = [
   {
@@ -31,11 +32,51 @@ const bannerContent = [
   },
 ];
 
+const teamInfo = [
+  {
+    name: "Isaac Kim",
+    role: "Frontend Engineer",
+    description: "Class of 2024.",
+    linkedInUrl: "https://www.linkedin.com/in/isaac-kimmi/",
+    githubUrl: "https://github.com/isaackimmi",
+  },
+  {
+    name: "Sahiti Hibane",
+    role: "Frontend Engineer",
+    description: "Class of 2024.",
+    linkedInUrl: "https://www.linkedin.com/in/sahiti-hibane/",
+    githubUrl: "https://github.com/goodCodeForGood",
+  },
+  {
+    name: "Connor Bustos",
+    role: "Full Stack Engineer",
+    description: "Class of 2024.",
+    linkedInUrl: "https://www.linkedin.com/in/connorbustos/",
+    githubUrl: "https://github.com/connorbustos",
+  },
+];
+
+const titleVariant: Variants = {
+  offscreen: {
+    opacity: 0, // For even elements, animate from right (+300), for odd animate from left (-300)
+  },
+  onscreen: {
+    opacity: 1,
+    transition: {
+      type: "spring",
+      bounce: 0.1,
+      duration: 1.1,
+    },
+  },
+};
+
 export default function LandingPage() {
   return (
-    <div className="w-screen h-screen font-Proxima-Nova">
+    <div className="w-screen h-screen bg-gray-50 font-Proxima-Nova">
       <link rel="stylesheet" href="https://use.typekit.net/urj3apl.css" />
-      <div className="w-full min-h-screen flex flex-col justify-center items-center gap-y-2 relative">
+      <div
+        className={`w-full min-h-screen flex flex-col justify-center items-center gap-y-2 relative bg-[url("/hero-blob.svg")] bg-cover bg-no-repeat bg-center`}
+      >
         <motion.p
           className="text-8xl font-normal"
           initial={{ y: 10, opacity: 0 }}
@@ -76,7 +117,7 @@ export default function LandingPage() {
       </div>
 
       {/* banner */}
-      <div className="w-full flex flex-col gap-y-14">
+      <div className={`w-full flex flex-col gap-y-14`}>
         {bannerContent.map((elem, idx) => {
           const cardVariants: Variants = {
             offscreen: {
@@ -126,8 +167,66 @@ export default function LandingPage() {
         })}
       </div>
 
-      {/* How it works */}
-      <div>how it works</div>
+      {/* About Us */}
+      <div className={`w-screen mx-auto pt-10 pb-20`}>
+        <motion.p
+          initial={"offscreen"}
+          whileInView={"onscreen"}
+          viewport={{ amount: 1, once: true }}
+          className="text-8xl text-center font-bold font-Proxima-Nova"
+          variants={titleVariant}
+        >
+          Meet the Team.
+        </motion.p>
+
+        <div className="w-fit flex flex-row mx-auto gap-x-8 pt-12">
+          {teamInfo.map((member, idx) => {
+            const cardVariants: Variants = {
+              offscreen: {
+                opacity: 0,
+              },
+              onscreen: {
+                opacity: 1,
+                transition: {
+                  bounce: 0.1,
+                  duration: 1,
+                },
+              },
+            };
+            return (
+              <motion.div
+                initial={"offscreen"}
+                whileInView={"onscreen"}
+                viewport={{ amount: 1, once: true }}
+                variants={cardVariants}
+                key={idx}
+                className="flex flex-col gap-y-8 justify-center items-center border-0 w-96 h-96 font-Proxima-Nova rounded-xl shadow-xl"
+              >
+                <Img width={"90px"} src={"/profile-icon.svg"} />
+                <div>
+                  <p className="font-bold text-2xl text-center">
+                    {member.name}
+                  </p>
+                  <p className="m-auto font-normal text-xl text-center">
+                    {member.role}
+                  </p>
+                  <p className="m-auto font-normal text-xl text-center">
+                    {member.description}
+                  </p>
+                  <div className="flex pt-8 flex-row gap-x-6 items-center justify-center">
+                    <Link href={member.linkedInUrl} target="_blank">
+                      <Linkedin />
+                    </Link>
+                    <Link href={member.githubUrl} target="_blank">
+                      <Github />
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }

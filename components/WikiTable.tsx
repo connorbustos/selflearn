@@ -85,23 +85,27 @@ const WikiTable = ({ owner }: WikiTableProps) => {
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: -10, opacity: 0 }}
         transition={{ duration: 1 }}
-        className="flex flex-col justify-center items-center w-full px-10"
+        className={`flex flex-col justify-center items-center w-full px-20 py-10 border-8 rounded-3xl shadow-xl`}
       >
         {isLoading ? (
           <Spinner size="xl" />
         ) : (
-          <Table>
+          <Table className="rounded-3xl">
             <TableCaption>Wiki Table</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead>Status</TableHead>
                 <TableHead>Title</TableHead>
-                <TableHead className="text-right">Date Published</TableHead>
-                <TableHead className="text-right">Date Modified</TableHead>
-                <TableHead className="text-right"></TableHead>
+                <TableHead className="font-Proxima-Nova font-bold text-right">
+                  Date Published
+                </TableHead>
+                <TableHead className="font-Proxima-Nova font-bold text-right">
+                  Date Modified
+                </TableHead>
+                <TableHead className="font-Proxima-Nova font-bold text-right"></TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="font-Proxima-Nova font-normal text-md">
               {userDrafts.map((wiki: WikiData) => {
                 return (
                   <TableRow key={userDrafts.indexOf(wiki)}>

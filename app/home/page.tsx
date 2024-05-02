@@ -8,7 +8,6 @@ import { useGetAllWikis } from "@/hooks/useGetAllWikis";
 import WikiLoadingPlaceholder from "@/components/WikiLoadingPlaceholder";
 import { marked } from "marked";
 import { motion } from "framer-motion";
-import Footer from "@/components/Footer";
 import { Img } from "@chakra-ui/react";
 import { Flame, SearchCode, UserRoundSearch } from "lucide-react";
 import StaticMarkdownEditor from "@/components/StaticMarkdownEditor";
@@ -106,7 +105,7 @@ const NewHomePage = () => {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen ">
+    <div className={`bg-gray-50 min-h-screen`}>
       <div className="pt-4">
         <div className="mx-auto max-w-[75%] px-4 md:px-6 lg:px-12 grid gap-2">
           <div>
@@ -212,7 +211,6 @@ const NewHomePage = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

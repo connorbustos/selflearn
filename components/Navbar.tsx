@@ -89,7 +89,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPath }) => {
         >
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="flex font-bold">
+              <Button variant="outline" className="flex font-bold border-none">
                 {session.user?.name}
               </Button>
             </DropdownMenuTrigger>
