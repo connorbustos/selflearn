@@ -17,9 +17,10 @@ export default function RootLayout({
     <SessionWrapper>
       <html lang="en">
         <body>
-          <Navbar currentPath={pathName} />
-          {children}
-          <Footer />
+          <div className="w-screen h-screen">
+            <Navbar currentPath={pathName} />
+            <div className="min-h-screen">{children}</div>
+          </div>
         </body>
       </html>
     </SessionWrapper>

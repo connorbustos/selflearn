@@ -17,7 +17,7 @@ interface CreatorCardProps {
 const CreatorCard = ({ id, name, wikisCount }: CreatorCardProps) => {
   return (
     <Link key={id} href="/" className="flex flex-col items-start">
-      <Card className="w-full min-w-[250px] rounded-2xl shadow-md transition-all duration-300 ease-in-out cursor-pointer hover:shadow-xl hover:-translate-y-1.25 flex justify-between min-h-[200px] max-h-[200px] p-4 bg-white">
+      <Card className="w-full min-w-[250px] rounded-2xl shadow-md transition-all duration-300 ease-in-out cursor-pointer hover:shadow-xl hover:-translate-y-2 flex justify-between min-h-[200px] max-h-[200px] p-4 bg-white">
         <div className="flex items-center">
           <Avatar>
             <AvatarImage

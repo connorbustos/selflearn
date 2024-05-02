@@ -8,6 +8,8 @@ import { useGetAllWikis } from "@/hooks/useGetAllWikis";
 import WikiLoadingPlaceholder from "@/components/WikiLoadingPlaceholder";
 import { marked } from "marked";
 import { motion } from "framer-motion";
+import { Img } from "@chakra-ui/react";
+import { Flame, SearchCode, UserRoundSearch } from "lucide-react";
 import StaticMarkdownEditor from "@/components/StaticMarkdownEditor";
 
 export const dynamic = "force-dynamic";
@@ -103,37 +105,65 @@ const NewHomePage = () => {
   }
 
   return (
-    <div className="bg-gray-50">
+    <div className={`bg-gray-50 min-h-screen`}>
       <div className="pt-4">
         <div className="mx-auto max-w-[75%] px-4 md:px-6 lg:px-12 grid gap-2">
-          <motion.div
-            className="text-8xl font-normal"
-            initial={{ y: 10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -10, opacity: 0 }}
-            transition={{ duration: 1 }}
-          >
-            <div className="text-xl font-bold mr-8 flex items-end">
-              Search Wikis
+          <div>
+            <div className="flex items-start justify-center w-full mx-auto gap-x-2">
+              <SearchCode
+                style={{
+                  paddingTop: "6px",
+                }}
+                size={64}
+              />
+              <p className="pt-2 pb-4 font-Proxima-Nova text-6xl font-black text-center">
+                Search Wikis
+              </p>
             </div>
             <Input
               type="text"
               placeholder="Enter Wiki Name..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="mb-2"
+              className={`${
+                displayWikis.length === 0 ? "mb-2" : "mb-14"
+              }  max-w-[650px] mx-auto rounded-full border-4 text-center text-2xl min-h-[60px]`}
             />
-            <div className="overflow-y-auto max-h-[425px]">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {displayWikis && displayWikis.length > 0
-                  ? displayWikis.map((wiki: any) => (
-                      <WikiCard key={wiki.id} {...wiki} />
-                    ))
-                  : null}
+
+            <motion.div
+              className="text-8xl font-normal"
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -10, opacity: 0 }}
+              transition={{ duration: 1 }}
+            >
+              <div
+                className={`grid gap-6 my-6 ${
+                  displayWikis.length === 0
+                    ? "grid-cols-1"
+                    : "grid-cols-2 md:grid-cols-4"
+                }`}
+              >
+                {displayWikis && displayWikis.length > 0 ? (
+                  displayWikis.map((wiki: any) => (
+                    <WikiCard key={wiki.id} {...wiki} />
+                  ))
+                ) : (
+                  <div className="w-full min-h-[300px] my-10 mx-auto">
+                    <p className="m-auto font-Proxima-Nova font-bold text-4xl text-center">
+                      no wikis found
+                    </p>
+                    <Img
+                      src={`/sad-panda.png`}
+                      alt="content"
+                      className="mx-auto"
+                    />
+                  </div>
+                )}
               </div>
-            </div>
-          </motion.div>
-          <div className="text-xl font-bold mr-8 flex items-end mt-6">
+            </motion.div>
+          </div>
+          <div className="text-xl font-bold mr-8 flex items-end">
             Try it out!
           </div>
           <div className="md-4 mb-6">
@@ -143,20 +173,36 @@ const NewHomePage = () => {
               isEditingProp={true}
             />
           </div>
-          <div className="text-xl font-bold mr-8 flex items-end">
-            Popular Wikis
+          <div className="flex items-start justify-start w-full mx-auto">
+            <Flame
+              style={{
+                paddingTop: "6px",
+              }}
+              size={64}
+            />
+            <p className="pt-2 pb-4 font-Proxima-Nova text-6xl font-black text-center">
+              Popular Wikis
+            </p>
           </div>
-          <div className="overflow-y-auto max-h-[210px]">
+          <div className="">
             <div className="flex-wrap justify-center grid grid-cols-2 md:grid-cols-4 gap-6 justify-center items-start mb-12">
               {popularWikis.map((wiki: any) => (
                 <WikiCard key={wiki.id} {...wiki} />
               ))}
             </div>
           </div>
-          <div className="text-xl font-bold mr-8 flex items-end">
-            Top Creators
+          <div className="flex items-start justify-start w-full mx-auto">
+            <UserRoundSearch
+              style={{
+                paddingTop: "6px",
+              }}
+              size={64}
+            />
+            <p className="pt-2 pb-4 font-Proxima-Nova text-6xl font-black text-center">
+              Top Creators
+            </p>
           </div>
-          <div className="overflow-y-auto max-h-[210px] mb-24">
+          <div className="max-h-[210px] mb-24">
             <div className="flex-wrap justify-center grid grid-cols-2 md:grid-cols-4 gap-6 justify-center items-start">
               {uniqueCreators.map((creator: any, index: number) => (
                 <CreatorCard key={index} {...creator} />

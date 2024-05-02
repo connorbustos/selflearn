@@ -6,6 +6,7 @@ import { Spinner } from "@chakra-ui/react";
 import { WikiData } from "../types/Wiki";
 import { useWikiDataStore } from "@/store/wikiData.store";
 import { useSession } from "next-auth/react";
+import { motion, useScroll, useSpring } from "framer-motion";
 
 const PreviewWiki = () => {
   const [wikiData, setWikiData] = useState<WikiData>();
@@ -26,9 +27,15 @@ const PreviewWiki = () => {
 
   return (
     <ChakraProvider>
-      <div className="w-full py-4 px-4 content-center">
-        {wikiData ? <WikiLayout wikiData={wikiData} /> : <Spinner />}
-      </div>
+      <motion.div className="w-full h-full flex py-4 px-4 items-center">
+        {wikiData ? (
+          <WikiLayout wikiData={wikiData} />
+        ) : (
+          <div className="m-auto">
+            <Spinner />
+          </div>
+        )}
+      </motion.div>
     </ChakraProvider>
   );
 };
