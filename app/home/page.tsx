@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import Footer from "@/components/Footer";
 import { Img } from "@chakra-ui/react";
 import { Flame, SearchCode, UserRoundSearch } from "lucide-react";
+import StaticMarkdownEditor from "@/components/StaticMarkdownEditor";
 
 export const dynamic = "force-dynamic";
 
@@ -167,7 +168,7 @@ const NewHomePage = () => {
             Try it out!
           </div>
           <div className="md-4 mb-6">
-            <MarkdownEditor
+            <StaticMarkdownEditor
               initialMarkdownText={markdownText}
               isOnViewWiki={false}
               isEditingProp={true}
