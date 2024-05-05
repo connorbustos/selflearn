@@ -18,6 +18,13 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
+## Code Structure
+
+app/ folder contains all pages which are the folder names inside the app/
+api/ has all the api calls
+components/ includes all UI related mini components that build up the website
+hooks/ has the LLM and getAllWikis code
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
