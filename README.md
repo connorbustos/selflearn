@@ -20,10 +20,10 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## Code Structure
 
-app/ folder contains all pages which are the folder names inside the app/
-api/ has all the api calls
-components/ includes all UI related mini components that build up the website
-hooks/ has the LLM and getAllWikis code
+- app/ folder contains all pages which are the folder names inside the app/
+- api/ has all the api calls
+- components/ includes all UI related mini components that build up the website
+- hooks/ has the LLM and getAllWikis code
 
 ## Learn More
 
